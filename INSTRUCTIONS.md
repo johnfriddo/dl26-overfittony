@@ -22,41 +22,31 @@ This file contains the list of available projects, complete details for each pro
 
 ## Project List
 
-<!-- | ID | Title | Reference Module | Suggested Size | Dataset | Assigned |
+| ID | Title | Reference Module | Suggested Size | Dataset | Assigned |
 | :---: | :--- | :--- | :--- | :--- | :--- |
-| 1 | [Feature-based Knowledge Distillation](#project-1) | Knowledge Distillation | Small | UCF-101 / HMDB-51 | Free |
-| 2 | [Cross-Modal Knowledge Distillation (Audio to Vision)](#project-2) | Knowledge Distillation | Medium | EPIC-Kitchens | Free |
-| 3 | [Metric Learning for Egocentric Face Recognition](#project-3) | Metric Learning | Small | EGTEA Gaze+ | Free |
-| 4 | [Few-shot Learning for Gesture Recognition](#project-4) | Metric Learning | Medium | miniImageNet | Free |
-| 5 | [Graph-based Metric Learning for Scene Understanding](#project-5) | Metric Learning | Large | Visual Genome | Free |
+| 1 | [Metric Learning for Face Recognition](#project-1) | Metric Learning | Small | CASIA-WebFace | Free |
+| 2 | [Few-shot Learning for Gesture Recognition](#project-2) | Metric Learning | Medium | HAGRID | Free |
+| 3 | [Graph-based Metric Learning for Scene Understanding](#project-3) | Metric Learning | Large | GQA | Free |
+| 4 | [Feature-based Knowledge Distillation](#project-4) | Knowledge Distillation | Small | CIFAR-100 | Free |
+| 5 | [Cross-Modal Knowledge Distillation (Audio to Vision)](#project-5) | Knowledge Distillation | Large | EPIC-Kitchens | Free |
 | 6 | [Knowledge Distillation for Mobile Action Recognition](#project-6) | Knowledge Distillation | Small | HMDB-51 | Free |
-| 7 | [Domain Adaptation for Action Recognition – Egocentric → Exocentric](#project-7) | Domain Adaptation | Medium | Source (egocentric) | Free |
+| 7 | [Domain Adaptation for Action Recognition – Exocentric → Egocentric](#project-7) | Domain Adaptation | Medium | Assembly101 | Free |
 | 8 | [Domain Adaptation with Image-to-Image Translation (CycleGAN)](#project-8) | Domain Adaptation | Medium | Office-31 | Free |
 | 9 | [Multi-source Domain Adaptation for Action Recognition](#project-9) | Domain Adaptation | Large | Source 1 | Free |
-| 10 | [Contrastive Learning for Video Representation (SimCLR Video)](#project-10) | Self-Supervised Learning | Small | Kinetics-400 | Free |
-| 11 | [Masked Video Modeling (MAE-style) for Egocentric Video](#project-11) | Self-Supervised Learning | Medium | EPIC-Kitchens | Free |
-| 12 | [Clustering-based Self-Supervised Learning for Action Discovery](#project-12) | Self-Supervised Learning | Medium | Unlabeled procedural videos (e.g., YouTube DIY, ~500 videos) | Free |
-| 13 | [Temporal Action Localization with 1D CNN](#project-13) | Video Understanding | Small | ActivityNet-1.3 | Free |
-| 14 | [Action Recognition with Vision Transformer (ViT-based)](#project-14) | Video Understanding | Medium | HMDB-51 | Free |
-| 15 | [Vision-Language Alignment with CLIP for Video](#project-15) | Vision & Language | Medium | MSR-VTT | Free |
-| 16 | [Multimodal Action Recognition – Video + Audio + Text](#project-16) | Vision & Language | Large | Synthetic (create your own videos with audio) or AudioSet + video | Free |
-| 17 | [Egocentric Video + Gaze for Procedural Understanding](#project-17) | Video Understanding | Medium | EPIC-Kitchens + gaze | Free |
-| 18 | [State-Space Models (Mamba) for Long Sequences](#project-18) | Advanced Sequential Modeling | Large | EPIC-Kitchens | Free |
-| 19 | [Transformer vs RNN for Procedural Video Understanding](#project-19) | Advanced Sequential Modeling | Medium | Assembly101 | Free |
-| 20 | [Diffusion Models for Trajectory/Motion Generation](#project-20) | Advanced Sequential Modeling | Medium | Human3.6M | Free |
-| 21 | [Deep Q-Learning for Frame Selection in Video](#project-21) | Reinforcement Learning | Small | Video classification task (e.g., HMDB-51, 100 videos) | Free |
-| 22 | [Policy Gradient for Gesture Control](#project-22) | Reinforcement Learning | Medium | Gesture dataset (e.g., MediaPipe skeleton of 5 common gestures) + Gymnasium environment (CartPole or GridWorld) | Free |
-| 23 | [Multi-agent RL for Task Coordination](#project-23) | Reinforcement Learning | Large | Synthetic: MultiAgentEnv environment based on Gymnasium | Free |
-| 24 | [Differentiable Task Graphs (Yao method) – Group A](#project-24) | Research Topic (Graphs/Procedural) | Large | Assembly101 | Free |
-| 25 | [Task Graphs – Softmax vs Sum Feasibility – Group B](#project-25) | Research Topic (Graphs/Procedural) | Large | Same as Track 24: Assembly101 | Free |
-| 26 | [Procedural Error Detection with Gaze – Group A](#project-26) | Research Topic (Egocentric/Multimodal) | Medium | EPIC-Kitchens | Free |
-| 27 | [Error Detection – Progress-Aware Model – Group B](#project-27) | Research Topic (Egocentric/Multimodal) | Medium | Same as Track 26 | Free |
-| 28 | [Graph Autoencoder for Geometric Representations](#project-28) | Research Topic (Graphs/Representation) | Large | Visual Genome | Free |
-| 29 | [Hyperbolic Embeddings for Action Hierarchy](#project-29) | Research Topic (Advanced Representations) | Medium | ActivityNet | Free |
-| 30 | [Generative Models for Data Augmentation in Egocentric Domain](#project-30) | Research Topic (Egocentric/Generative) | Medium | EPIC-Kitchens | Free |
-| 31 | [Online Episodic Memory for Action Anticipation](#project-31) | Research Topic (Memory/Anticipation) | Large | EPIC-Kitchens | Free |
-
---- -->
+| 10 | [Contrastive Learning for Video Representation (SimCLR)](#project-10) | Self-Supervised Learning | Small | UCF-101 | Free |
+| 11 | [Masked Autoencoders for Image Representation Learning](#project-11) | Self-Supervised Learning | Small | ImageNet 1K | Free |
+| 12 | [Clustering-based SSL for Action Discovery](#project-12) | Self-Supervised Learning | Medium | Kinetics-400 | Free |
+| 13 | [Temporal Action Segmentation from Video](#project-13) | Video Understanding | Small | EGTEA Gaze+ | Free |
+| 14 | [Action Anticipation from Video](#project-14) | Video Understanding | Medium | EPIC-KITCHENS | Free |
+| 15 | [Vision-Language Alignment with CLIP for Video](#project-15) | Vision & Language | Medium | EPIC-KITCHENS | Free |
+| 16 | [Multimodal Action Recognition – Video + Audio](#project-16) | Video Understanding | Large | EPIC-KITCHENS | Free |
+| 17 | [Egocentric Video + Gaze for Action Recognition](#project-17) | Video Understanding | Large | EGTEA Gaze+ | Free |
+| 18 | [State-Space Models (Mamba) for Mistake Detection](#project-18) | Advanced Sequential Modeling | Large | Assembly101 | Free |
+| 19 | [Transformer vs RNN for Procedural Video Understanding](#project-19) | Advanced Sequential Modeling | Medium | EGO4D Goal-Step | Free |
+| 20 | [Image & Language Representation Learning](#project-20) | Vision & Language | Medium | MS-COCO | Free |
+| 21 | [Deep Reinforcement Learning for Frame Selection in Video](#project-21) | Reinforcement Learning | Large | UCF101 | Free |
+| 22 | [Learn to Play Super Mario Bros with Deep Reinforcement Learning](#project-22) | Reinforcement Learning | Large | Super Mario Bros Environment | Free |
+| 23 | [Align a Small LLM with GRPO for Strict Code or JSON Generation](#project-23) | Reinforcement Learning | Large | Synthetic Logic Array | Free |
 
 ## Detailed Project Descriptions
 
@@ -67,22 +57,22 @@ This file contains the list of available projects, complete details for each pro
 **Reference Module**: Metric Learning  
 
 #### Problem Description
-Learn to recognize faces by training a model on a set of images of faces and testing it on a different set. Create a small demo working on images of faces collected by you.
+Face recognition systems are ubiquitous, but identifying individuals accurately across varying lighting, poses, and expressions is challenging. This project involves learning robust, identity-preserving embeddings by training a model on a large face dataset and testing its generalization on unseen individuals. Split the dataset into a training set and a test set, where the test set contains only individuals that are not present in the training set.
 
 #### Dataset
-- **CASIA-WebFace** (https://www.kaggle.com/datasets/debarghamitraroy/casia-webface) or a subset of it.
-- ~500,000 images of ~10,000 subjects.
+- **CASIA-WebFace** (https://www.kaggle.com/datasets/debarghamitraroy/casia-webface) or a subset.
+- ~500,000 images representing ~10,000 subjects.
 
 #### Minimum Objectives
-1. CNN backbone (ResNet-18 fine-tuned)
-2. Classification-based baseline, KNN generalization to new faces
-3. Mtric Learning: Triplet loss with hard negative mining: given an anchor face, find positives (same person) and negatives (other people)
-4. Retrieval evaluation: mAP @1, 5, 10 (if I show a face, does the model retrieve the same person in the top-10 results more frequently?)
-5. Cluster analysis in latent space: are faces of the same person close together?
+1. **Baseline**: Train a standard image classification model using a fine-tuned ResNet-18 backbone, relying on the classifier's features and a K-Nearest Neighbors (KNN) search to generalize to new faces.
+2. **Metric Learning**: Implement Triplet Loss with hard negative mining. Given an anchor face, dynamically mine challenging positives (same person) and negatives (different people).
+3. **Retrieval Evaluation**: Compute mAP @1, 5, 10 to evaluate if the model successfully retrieves the correct identity within its top rank predictions.
+4. **Cluster Analysis**: Perform an analysis of the latent space (e.g., using t-SNE or PCA) to verify that faces of identical subjects cluster closely together.
 
 #### Extra Objectives
-- Comparison with other losse functions (e.g., ArcFace, Siamese etc.).
-- Ablations of parameters (mining strategies, batch size, etc.)
+- Implement and compare with advanced margin-based loss functions (e.g., ArcFace, CosFace, Siamese networks).
+- Perform ablations on hyper-parameters like mining strategies (offline vs. online) and batch size.
+- Create a small demo that processes and recognizes localized facial images collected directly by your team.
 
 ---
 
@@ -92,22 +82,23 @@ Learn to recognize faces by training a model on a set of images of faces and tes
 **Reference Module**: Metric Learning  
 
 #### Problem Description
-Recognize hand gestures from 1–5 labeled examples. This is useful when the gesture is rare or new. Train on a large dataset of gestures and test on a held-out set in a few-shot setting. Create a small demo with a few new gestures the model should generalize to.
+Recognizing human hand gestures is vital for sign language translation and human-computer interaction. However, relying on massive labeled datasets for every potential gesture is impractical. This project tackles the few-shot learning paradigm: a system that learns to recognize new, unseen hand gestures by being provided with only 1 to 10 labeled examples during inference. You will train the backbone on a large corpus and then generalize to the unseen set with linear probing on few labeled data.
+
 
 #### Dataset
 - **HAGRID** (https://github.com/hukenovs/hagrid) (or a subset)
-- 1M RGB frames
-- 33 classes of gestures
+- ~1M RGB frames covering 33 classes of gestures.
 
-#### Objectives
-1. 2D/3D CNN / Transformers on gesture images, classification-based baseline, KNN for generalization to new classes.
-2. Metric learning: Triplet loss with hard negative mining: given an anchor, find positives (same gesture) and negatives (other gestures), linear probe for generalization to new classes.
-3. Metric: Accuracy 5-way 1-shot, 5-way 5-shot
-4. Report: how does performance change with more examples?
+#### Minimum Objectives
+1. **Baseline**: Use a 2D/3D CNN or Vision Transformer on gesture images treated as a standard classification problem. Extract the pre-softmax embeddings and use KNN to classify novel gesture classes.
+2. **Metric Learning**: Train using Triplet Loss with hard negative mining to enforce clustering of identical gestures. Use a linear probe or nearest-centroid tracking for generalization to new class sets.
+3. **Few-Shot Evaluation**: Measure classification performance systematically using Accuracy on 1/5/10-shot.
+4. **Data Analysis Report**: Document how the predictive performance scales as the number of provided shots ("examples") increases from 1 to 5 to 10.
 
 #### Extra Objectives
-- 1D CNN/RNN/Transformer on skeleton coordinates (e.g., extracted with media-pipe)
-- Detailed failure case analysis
+- Utilize 1D CNNs, RNNs, or Transformers analyzing temporal skeleton coordinates extracted via MediaPipe instead of raw RGB frames.
+- Provide a rigorous failure case analysis detailing why the model confuses specific gestures.
+- Create a demo demonstrating the model generalizing instantly to a few newly recorded gestures.
 
 ---
 
@@ -117,23 +108,22 @@ Recognize hand gestures from 1–5 labeled examples. This is useful when the ges
 **Reference Module**: Metric Learning  
 
 #### Problem Description
-Represent scenes (e.g., kitchen, office) as graphs (objects = nodes, spatial relations = edges) and learn robust embeddings for scene-to-scene retrieval.
+Images exist as a rich tapestry of interrelated objects, yet standard CNN architectures often reduce this to a single flat vector. This project aims to represent complex scenes (like kitchens or offices) structurally as graphs, where nodes are objects and edges describe their spatial or semantic relationships. By learning dynamic embeddings of these graphs, you will create a system capable of robust scene-to-scene retrieval based on compositional similarity rather than just pixel-level textures.
 
 #### Dataset
-- **GQA** (https://cs.stanford.edu/people/dorarad/gqa/download.html) or a subset
-- 100K images
-- Each with scene graphs and a subset with scene labels (location)
+- **GQA** (https://cs.stanford.edu/people/dorarad/gqa/download.html) or a subset.
+- 100K images, utilizing provided scene graphs and localized scene labels.
 
 #### Minimum Objectives
-1. Scene graph encoder: GCN that processes the graph and produces an embedding. Work with ground truth graphs.
-2. Contrastive loss: pairs of similar scenes (same place, same activity) must have close embeddings (e.g., Triplet loss)
-3. Retrieval: given a query graph, find the most similar scene graphs in the dataset and attach the corresponding scene label
-4. Metrics: standard classification metrics (Accuracy etc.)
+1. **Baseline**: A standard CNN processing the raw image to predict the scene label/embedding, ignoring the explicit graph structure.
+2. **Graph Encoder**: Implement a Graph Convolutional Network (GCN) that ingests ground truth scene graphs (nodes and edges) resulting in a unified scene embedding.
+3. **Contrastive Training**: Train the embeddings using contrastive (or triplet) loss so that paired graphs from similar scenarios (e.g., identical activity and place) cluster tightly.
+4. **Retrieval Evaluation**: Given a query scene graph, perform retrieval on the dataset to fetch structurally similar graphs, evaluating via standard classification metrics (Accuracy, Precision, Recall).
 
 #### Extra Objectives
-- Robustness to perturbations (remove nodes/edges from the test graph, check if retrieval degrades)
-- Dynamic graph: extract scene graphs from videos (nodes = object tracks, edges = temporal interactions), e.g., using VLMs - evaluate the quality of the extracted graphs
-- Interpretability: which edges are critical for similarity?
+- Test robustness to structural perturbations (e.g., artificially drop nodes/edges from test graphs to see if retrieval degrades).
+- Build a dynamic graph extractor: utilize Vision-Language Models (VLMs) or Object Trackers to automatically extract scene graphs from raw videos instead of relying on ground truth.
+- Visualize and interpret which edges/relations act as critical focal points for the model's similarity metric.
 
 ---
 
@@ -143,20 +133,20 @@ Represent scenes (e.g., kitchen, office) as graphs (objects = nodes, spatial rel
 **Reference Module**: Knowledge Distillation  
 
 #### Problem Description
-Test different knowledge distillation strategies to train a small student model for image classification.
+Deep neural networks achieve staggering accuracies but often require massive computational power, making them unsuited for edge devices. Knowledge Distillation (KD) provides a bridge by forcing a small, efficient "student" network to mimic a heavy "teacher" network. In this project, you will explore advanced KD strategies. By moving beyond simple logit-matching, you will extract and distill intermediate convolutional features from the teacher to force the student to learn identically rich hierarchical representations.
 
 #### Dataset
-- **CIFAR-100** or **ImageNet** (subset)
+- **CIFAR-100** or a subset of **ImageNet**.
 
 #### Minimum Objectives
-1. **Teacher and Student**: Large CNN (e.g., ResNet-50) and Small CNN (e.g., ResNet-18)
-2. **Algorithm**: Implement Classic KD (logits) and FitNets (feature distillation)
-3. Compare student performance with and without distillation
-4. Metrics: Accuracy comparison (teacher vs student no KD vs student + KD), model size (MB), inference time (ms)
+1. **Teacher and Student**: Define a large teacher CNN (e.g., pretrained ResNet-50) and initialize a small student CNN (e.g., ResNet-18 or MobileNet).
+2. **Baseline**: Train the small student network purely from scratch using cross-entropy, without any distillation framework.
+3. **Distillation Algorithms**: Implement standard Logit-based KD alongside feature distillation methods (e.g., FitNets).
+4. **Evaluation**: Compare the test accuracies of the Teacher, the standard Student (Baseline), and the KD-trained Student. Report metrics on model size (MB) and raw inference latency (ms).
 
 #### Extra Objectives
-- Combine feature distillation and logit distillation
-- Try also Attention Transfer and Relational Knowledge Distillation
+- Experiment with blending Feature-based distillation with classical Logit-based distillation via weighted loss terms.
+- Implement advanced distillation mechanisms such as Attention Transfer or Relational Knowledge Distillation.
 
 ---
 
@@ -166,21 +156,21 @@ Test different knowledge distillation strategies to train a small student model 
 **Reference Module**: Knowledge Distillation  
 
 #### Problem Description
-Distill knowledge from a video-only teacher into an audio-only student model. This helps when video is not available during inference but is present during training.
+In many real-world edge settings, deploying multi-modal sensors is too expensive or computationally heavy. This project addresses "modality hallucination" by distilling knowledge from a robust Video-based teacher into an Audio-only student model. This enables the resulting lightweight audio model to internally leverage visual context during inference—even when dealing exclusively with sound clips in production.
 
 #### Dataset
-- **EPIC-Kitchens** (https://epic-kitchens.github.io/) and **EPIC-Sounds** (https://epic-kitchens.github.io/epic-sounds/)
+- **EPIC-Kitchens** (https://epic-kitchens.github.io/) for visual frames and **EPIC-Sounds** (https://epic-kitchens.github.io/epic-sounds/) for aligned auditory tracks.
 
 #### Minimum Objectives
-1. **Teacher model**: Train an image encoder (e.g. ResNet-50) on EPIC-Kitchens
-2. **Student model**: Train a audio encoder (e.g. Audio Spectrogram Transformer - https://arxiv.org/abs/2104.01778) on EPIC-Sounds using distillation loss from the video teacher
-3. Evaluate student's performance against a vision-only baseline
-4. Metrics: Accuracy comparison (teacher vs student no KD vs student + KD), model size (MB), inference time (ms)
+1. **Baseline**: Train a standard audio encoder (e.g., Audio Spectrogram Transformer, AST) using purely audio spectrograms and cross-entropy loss.
+2. **Teacher Model**: Fine-tune an image encoder (e.g., ResNet-50) on EPIC-Kitchens visual frames to act as the robust expert.
+3. **Student Model**: Train the AST audio encoder using distillation loss mapped from the visual embeddings of the teacher, bridging the sensory gap.
+4. **Evaluation**: Compare classification accuracy of the vision teacher, the audio baseline, and the distilled audio student. Produce a size (MB) and inference time (ms) comparison.
 
 #### Extra Objectives
-- Implement contrastive distillation between audio and video embeddings
-- Use a video encoder (e.g. 3D CNNs/Transformer) on EPIC-Kitchens
-- Explore different audio encoders
+- Enforce strict dimensional alignment using Contrastive cross-modal distillation between audio and video embeddings.
+- Implement a temporal 3D CNN or a Video Transformer as the visual teacher to account for longitudinal temporal dynamics.
+- Explore and benchmark lightweight alternatives to AST.
 
 ---
 
@@ -190,22 +180,22 @@ Distill knowledge from a video-only teacher into an audio-only student model. Th
 **Reference Module**: Knowledge Distillation  
 
 #### Problem Description
-Compress a heavy video model (e.g., 3D ResNet-50) into a lightweight one (e.g., MobileNet) maintaining performance, for deployment on mobile devices.
+Action recognition in videos is inherently expensive due to the added temporal dimension, making deployment to mobile applications highly restrictive. This project focuses on aggressive model compression, translating the robust, high-dimensional knowledge learned by a heavy 3D ResNet-50 into an ultra-lightweight MobileNet 3D. The resulting model must maintain respectable temporal reasoning while reducing parameter count by 5–10x.
 
 #### Dataset
-- **HMDB-51** or **UCF-101** (sports/daily actions)
-- Video features available online
+- **HMDB-51** or **UCF-101** (focusing on sports/daily actions).
+- Download and utilize pre-extracted video features if computational restraint is an issue.
 
 #### Minimum Objectives
-1. **Teacher**: Pre-trained 3D ResNet-50 (baseline accuracy on the test set)
-2. **Student**: MobileNet 3D (light version, e.g., 5–10x fewer parameters)
-3. Training loop: student learns from the soft output of the teacher
-4. Metrics: Accuracy comparison (teacher vs student no KD vs student + KD), model size (MB), inference time (ms)
+1. **Teacher Model**: Evaluate and solidify a pre-trained 3D ResNet-50 to establish the upper bound baseline accuracy.
+2. **Baseline**: Train a 3D MobileNet from scratch using purely hard labels, defining the lower bound capability of the architecture.
+3. **Knowledge Transfer**: Re-train the 3D MobileNet student allowing it to learn from the soft probability distributions (logits) of the teacher.
+4. **Evaluation**: Graph the test accuracies representing Teacher vs. Baseline Student vs. Distilled Student. Report deployment metrics: model size (MB) and sequential inference tracking (ms).
 
 #### Extra Objectives
-- Temperature tuning: how does performance change with T = 1, 5, 10, 20?
-- Attention transfer: not only logits, but also intermediate activation maps
-- Visualization of what the teacher transmits to the student (t-SNE of the latent space)
+- Perform temperature scaling ablations (T = 1, 5, 10, 20) to analyze how smoothing the teacher's logits impacts knowledge transfer.
+- Expand KD to include Attention Transfer across intermediate temporal activation mappings.
+- Provide t-SNE visualizations of the latent space to illustrate the structural differences in how the teacher and student map actions.
 
 ---
 
@@ -215,27 +205,22 @@ Compress a heavy video model (e.g., 3D ResNet-50) into a lightweight one (e.g., 
 **Reference Module**: Domain Adaptation  
 
 #### Problem Description
-A model trained on exocentric videos (fixed cameras) does not work well on egocentric videos (from smart glasses). Use Domain Adaptation (DA) to transfer knowledge. Use exocentric as source and egocentric as target.
+Models trained on vast repositories of security camera or YouTube footage (exocentric views) catastrophically fail when deployed on smart glasses (egocentric views) due to massive shifts in perspective, occlusion, and background statistics. This project requires you to implement Domain Adaptation (DA) techniques that can effectively transfer semantic understanding from an exocentric labeled source to an egocentric unlabeled target, mitigating the domain gap.
 
 #### Dataset
-- **Assembly101** (https://assembly101.github.io/)
-- Multi-view: pick one as exo and one as ego
-- May use a subset
+- **Assembly101** (https://assembly101.github.io/).
+- Exploit multi-view recordings: assign one external view as the exocentric Source, and the head-mounted view as the egocentric Target.
 
 #### Minimum Objectives
-1. **Baseline fine-tuning**: train on labeled target (egocentric), evaluate accuracy
-2. **Adversarial DA**: gradient reversal layer
-   - Shared encoder (CNN)
-   - Classification head (predicts action on target)
-   - Domain discriminator (predicts if egocentric=0 or exocentric=1)
-   - Backprop: loss_class - λ*loss_domain (adversarial)
-3. Metrics: target accuracy, standard classification metrics
-4. Report: does the model manage to confuse the discriminator? Does accuracy improve with DA vs fine-tuning?
+1. **Baseline**: Train a classification model strictly on the labeled target data to document standard performance bounds (or train on source and directly zero-shot test on the target to demonstrate domain shift collapse).
+2. **Adversarial DA**: Implement a Gradient Reversal Layer (GRL) module consisting of a shared feature encoder, action classification head, and a domain discriminator (predicting source vs. target).
+3. **Evaluation**: Optimize using adversarial backpropagation and plot target validation accuracy against standard classification matrices.
+4. **Analysis**: Report whether the shared representations successfully confused the domain discriminator while improving the classification accuracy relative to the baseline.
 
 #### Extra Objectives
-- Maximum Mean Discrepancy (MMD) loss and other domain adaptation methods
-- Visualization of feature alignment (t-SNE source vs target)
-- Per-class analysis: which actions are easy/difficult to adapt?
+- Experiment with the Maximum Mean Discrepancy (MMD) distribution alignment statistic as an alternative to GRL.
+- Extract t-SNE mapping of features pre- and post-DA to visualize domain alignment.
+- Conduct a per-class discrepancy analysis to identify which specific physical actions resist viewpoint adaptation the most.
 
 ---
 
@@ -245,26 +230,22 @@ A model trained on exocentric videos (fixed cameras) does not work well on egoce
 **Reference Module**: Domain Adaptation  
 
 #### Problem Description
-Translate images from domain A to domain B without aligned pairs (e.g., sketch → photo). Use the translation as pre-processing to improve the classifier on the target.
+When confronted with massive domain shifts (e.g., from generated synthetic simulations to real-world photographs), aligning embedding spaces may not be enough. This project takes a highly visual approach: using a CycleGAN to actively synthetically re-render images from Domain A to look like they were photographed in Domain B. This visual translation acts as a powerful pre-processing augmentation, forcing the downstream classifier to operate on familiar looking features.
 
 #### Dataset
-- **Office-31** (source: Amazon, target: DSLR) (https://www.kaggle.com/datasets/xixuhu/office31)
-- Or **VisDA** (syn → real) (https://ai.bu.edu/visda-2019/)
+- **Office-31** (Source: Amazon, Target: DSLR) (https://www.kaggle.com/datasets/xixuhu/office31)
+- Alternative: **VisDA** (synthetic → real) (https://ai.bu.edu/visda-2019/)
 
 #### Minimum Objectives
-1. **CycleGAN**: two generators (A→B, B→A) and two discriminators
-2. Loss: adversarial (discriminator convinces) + cycle-consistency (G_AB(G_BA(x)) ≈ x)
-3. Pipeline: 
-   - Train CycleGAN to translate source → target
-   - Use translated + original images to train classifier
-4. Metrics:
-   - Classifier accuracy on target
-   - Visual quality (human)
+1. **Baseline**: Train an image classifier exclusively on the Source dataset and test it on the Target dataset to establish baseline domain collapse.
+2. **CycleGAN Training**: Implement two adversarial generators (A→B, B→A) and two discriminators relying on cycle-consistency losses without any aligned image pairs.
+3. **Translation Execution**: Actively force the trained CycleGAN to translate all Source visuals to visually emulate Target aesthetics.
+4. **Evaluation**: Utilize the translated frames (and originals) to train a classifier. Measure the resulting downstream classifier accuracy on the Target validation split, supplemented by qualitative human analysis of translation quality.
 
 #### Extra Objectives
-- Simultaneous DANN: while CycleGAN translates, an adversarial domain discriminator
-- Train on source and test on translated target - is this a better approach?
-- Compare with other domain adaptation methods (feature-based)
+- Establish a simultaneous Domain Adversarial Neural Network (DANN) that dynamically translates features while training.
+- Reverse the perspective: train the final classifier purely on the Target domain, but test it on translated Source images. Does the pipeline work better backward?
+- Compare Image-to-Image translations against basic feature-level domain adaptation methods.
 
 ---
 
@@ -274,103 +255,98 @@ Translate images from domain A to domain B without aligned pairs (e.g., sketch �
 **Reference Module**: Domain Adaptation  
 
 #### Problem Description
-Perform action recognition considering two labeled datasets (source) and one unlabeled one (target). Instead of a single source domain, use information from 3 different sources to improve on the target.
+Relying on a single source dataset for domain pre-training frequently biases a model, restricting its capability to generalize to an unlabeled target. Multi-source Domain Adaptation embraces multiple distinct labeled datasets (Source 1, Source 2) and actively combines their varied knowledge bases to inform the predictions of a highly distinct unlabeled target dataset. This project challenges you to develop a framework capable of dynamically weighting multiple distinct knowledge domains simultaneously.
 
 #### Dataset
 - **Source 1**: HMDB-51
 - **Source 2**: UCF-101
-- **Target**: Kinetics subset
+- **Target**: Kinetics (subset of classes)
 
 #### Minimum Objectives
-1. Model with: shared encoder + 2 source classifiers + target classifier
-2. Domain discriminator for each source (or global)
-3. Weighted ensemble: assign weight to each source based on similarity with the target
-4. Training loop: optimize all simultaneously
-5. Metrics: target accuracy, per-source contribution analysis
+1. **Baseline**: Train an encoder combining all data from both sources natively without any domain-adaptation formatting, testing zero-shot on the target dataset.
+2. **Multi-Source Architecture**: Build an architecture containing a shared CNN feature encoder, two independent source-specific classifiers, and one combined target classifier.
+3. **Weighted Ensemble**: Formulate a mechanism that structurally weights the reliance on each Source based on dynamic embedding similarity to the current Target batch.
+4. **Evaluation**: Optimize the entire network simultaneously utilizing domain discriminators, detailing target accuracy evolution and the numerical influence ratio of Source 1 vs Source 2.
 
 #### Extra Objectives
-- Incomplete batch simulation: what happens if a source is missing during training?
-- Analogy study: how does performance vary with the number of sources?
+- Perform an incomplete batch simulation: mathematically observe test stability when Source data is abruptly dropped or unbalanced during training epochs.
+- Conduct an analogy study defining exactly how global performance curves behave as the dataset count increases or dataset overlaps vary.
 
 ---
 
 <a id='project-10'></a>
-### Track 10: Contrastive Learning for Video Representation (SimCLR Video)
+### Track 10: Contrastive Learning for Video Representation (SimCLR)
 **Suggested Size**: Small  
 **Reference Module**: Self-Supervised Learning  
 
 #### Problem Description
-Pre-train a video encoder without labels using a contrastive loss on pairs of augmented frames/clips from the same video. Split the dataset into two sets: one for pre-training and one for linear probing.
+Annotating massive video datasets with localized, specific action tags is phenomenally expensive. Self-supervised contrastive learning (SimCLR) seeks to bypass human labeling by pre-training a video encoder to simply understand raw visual patterns. The model is forced to recognize that two heavily augmented crops of the *same* video clip represent the identical semantic concept, whilst strongly differing from other background videos. This creates highly powerful initial weights for downstream tasks.
 
 #### Dataset
 - **UCF-101** (https://www.crcv.ucf.edu/data/UCF101.php)
-- 1k videos
-- 101 action categories
+- 1k videos, 101 action categories. Split into entirely unlabelled structural logic sets and a sparse labeled probe set.
 
 #### Minimum Objectives
-1. Supervised baseline on the labeled set for reference
-2. 3D ResNet-18 as backbone
-3. Pre-train with SimCLR on the unlabeled set and do linear probing on the labeled set
-4. Metric: standard classification accuracy, compare linear probe accuracy vs supervised training from scratch
+1. **Baseline**: Train a standard 3D ResNet-18 purely from scratch exclusively utilizing the small labeled dataset, noting the massive overfitting potential.
+2. **Self-Supervised Pre-Training**: Apply SimCLR algorithms on the unlabeled partition. Generate spatio-temporal video augmentations (crops, color jitters, temporal flips) and enforce embedding similarities.
+3. **Linear Probing**: Freeze the SimCLR pre-trained encoder completely and train only a terminal fully-connected layer on the limited labeled dataset to classify specific actions.
+4. **Evaluation**: Output standard top-1/top-5 accuracy metrics, charting the robust success of unsupervised linear probes versus the fragile from-scratch baseline.
 
 #### Extra Objectives
-- Temperature in contrastive loss: T=0.1, 0.5, 1.0, effect on convergence
-- Visualization: t-SNE embeddings of similar videos should cluster together
-- Momentum contrast (MoCo) for larger batch size
-- Other contrastive learning methods
-- Linear probing vs fine-tuning
+- Modify the temperature hyper-parameters (e.g., T=0.1, 0.5, 1.0) inside the contrastive InfoNCE loss, charting divergence convergence rates.
+- Visualize representation logic via t-SNE mapping; similar physical actions should visually cluster without being taught labels.
+- Transition from SimCLR to Momentum Contrast (MoCo) to drastically artificially expand batch sizing for improved contrastive mapping.
+- Compare classical linear probing results directly alongside full model un-frozen fine-tuning.
 
 ---
 
 <a id='project-11'></a>
-### Track 11: Masked Autoencoders for image representation learning
+### Track 11: Masked Autoencoders for Image Representation Learning
 **Suggested Size**: Small  
 **Reference Module**: Self-Supervised Learning  
 
 #### Problem Description
-Pre-train a transformer masked autoencoder in an unsupervised way, then use it for downstream tasks with linear probing. Split the dataset in an unlabeled set for pre-training and a labeled set for linear probing.
+The Masked Autoencoder (MAE) revolutionized self-supervised learning by proving models can learn phenomenal relational context simply by playing a jigsaw puzzle. By aggressively masking out over 50-75% of an image patch grid, the vision transformer is brutally forced to predict and reconstruct the missing visual data from surrounding semantic context. This task focuses entirely on building and pre-training these powerful contextual generators natively prior to probing them.
 
 #### Dataset
-- **ImageNet 1K** or a subset of it (https://www.image-net.org/download.php)
-- 1K classes
-- 1M images
-
+- **ImageNet 1K** or a structurally balanced subset (https://www.image-net.org/download.php).
+- 1K classes, roughly 1M images.
 
 #### Minimum Objectives
-1. Supervised baseline on the labeled set for reference
-2. Train a masked autoencoder transformer on the unlabeled set and do linear probing on the labeled set
-3. **Evaluation**: standard classification accuracy, compare linear probe accuracy vs supervised training from scratch
+1. **Baseline**: Train a supervised visual transformer model natively from scratch solely utilizing the small supervised label set.
+2. **MAE Pre-Training**: Construct an asymmetric Masked Autoencoder (heavy encoding, lightweight decoding) utilizing raw ImageNet frames lacking their associated labels.
+3. **Linear Probing**: Destroy the decoder, freeze the heavy contextual encoder, and attach a linear layer to map to classes using traditional supervised learning.
+4. **Evaluation**: Generate the classification accuracy metric, rigorously comparing the MAE structural pre-training to the randomized baseline initialization.
 
 #### Extra Objectives
-- Visualization of reconstructed frames
-- Ablate hyper-parameters (masking percentage etc.)
-- Compare with other self-supervised learning methods
+- Implement decoders capable of exporting visual reconstructions, mapping the predicted masked patches to human-readable matrices.
+- Systematically ablate patch masking percentages (e.g., 25%, 50%, 75%, 90%) tracking reconstruction loss against ultimate probe accuracy.
+- Contextualize results by comparing MAE performance against a pure pixel-level classical Autoencoder and a contrastive learning method.
 
 ---
 
 <a id='project-12'></a>
-### Track 12: Clustering-based Self-Supervised Learning for Action Discovery
+### Track 12: Clustering-based SSL for Action Discovery
 **Suggested Size**: Medium  
 **Reference Module**: Self-Supervised Learning  
 
 #### Problem Description
-Discover recurring actions in **unlabeled** videos using iterative clustering. Useful when you have no annotations but the video has repetitive patterns.
+Imagine observing hours of YouTube DIY tutorials without speaking the language. You naturally start clustering repetitive conceptual movements—this is an "unscrewing" motion, this is "hammering." This project mirrors that human deduction protocol using unsupervised iterative clustering pseudo-labels. Instead of teaching a network classes directly, you identify recurring actions in a continuous vacuum, establishing latent clusters corresponding to true semantic tasks without any supervised intervention.
 
 #### Dataset
-- Kinetics-400 (https://github.com/cvdfoundation/kinetics-dataset)
-- Pick a subset of classes/videos if too large
+- **Kinetics-400** (https://github.com/cvdfoundation/kinetics-dataset).
+- Narrow down to a subset of ~10-20 highly localized action classes or completely unlabeled instructional footage.
 
 #### Minimum Objectives
-1. Train a self-supervised model on Kinetics-400 (e.g., SimCLR or VideoMAE)
-2. Extract features from the trained model for each video
-3. K-means clustering (start with k=10, then experiment)
-4. Pseudo-labels: assign a cluster label to each clip
-5. Evaluation: Cluster purity (how many videos in cluster 0 are truly similar?)
+1. **Baseline**: Establish a uniform pseudo-labeling schema or generic k-means pass acting on raw untuned ResNet embeddings.
+2. **Feature Extraction**: Train or utilize an advanced foundational self-supervised mechanism (VideoMAE or SimCLR) to process raw video arrays into dense embeddings.
+3. **Iterative K-Means**: Run progressive cluster optimization loops mapping similar temporal features into pseudo-label groupings.
+4. **Evaluation**: Correlate mathematically the overlap of unsupervised cluster divisions (purity scores) to true grounded procedural steps (using underlying human annotations merely as an evaluation key).
 
 #### Extra Objectives
-- Try different clustering methods
-- Try different self-supervised learning methods
-- Inspect clusters and try to assign meaningful labels to them
+- Compare density-based techniques (DBSCAN) against geometric methods (K-Means).
+- Incorporate distinct SSL architectures as the feature foundation to evaluate differing embedding spacing.
+- Provide a qualitative interpretability analysis mapping the abstract pseudo-clusters backwards to decipher meaningful human-readable labels regarding the distinct procedural movements identified by the network.
 
 ---
 
@@ -380,23 +356,21 @@ Discover recurring actions in **unlabeled** videos using iterative clustering. U
 **Reference Module**: Video Understanding  
 
 #### Problem Description
-Train a model to segment actions from video assigning a label to each frame.
+While action *recognition* identifies *what* happens in a unified video clip, temporal *segmentation* acts like a meticulous editor identifying exactly *when* each individual action begins and ends across a long, erratic continuous stream. In this task, you map sequential long-form video vectors to densely predict specific activity states for every individual frame segment, establishing accurate bounds for procedural human interactions.
 
 #### Dataset
-- **EGTEA Gaze+** (https://cbs.ic.gatech.edu/fpv/)
-- Consider pre-extracted features (e.g., from https://github.com/antoninofurnari/rulstm)
-- Annotations: start/end frames for each action (may consider labels from https://github.com/antoninofurnari/rulstm)
+- **EGTEA Gaze+** (https://cbs.ic.gatech.edu/fpv/).
+- Utilize pre-extracted dense features (e.g., derived from RULSTM protocols) complete with annotated start and end bound timestamps.
 
 #### Minimum Objectives
-1. 1D CNN model: processes features along the temporal dimension
-2. LSTM model
-3. xLSTM model
-4. Compare the three models
-5. Report: systematic errors (e.g., always predicts the action too short/long)?
+1. **CNN Temporal Baseline**: Utilize a standard 1D Convolutional Neural Network scaling horizontally across the temporal frame distributions predicting the local status.
+2. **RNN Module**: Engineer an LSTM to sequentially process the temporal features accounting for rolling local contexts and historical inertia.
+3. **xLSTM Architecture**: Update the historical methodology by implementing the recent extended LSTM (xLSTM) framework targeting exponential scaling sequences.
+4. **Evaluation**: Compile comparative matrices demonstrating overall accuracy metrics while qualitatively logging systematic boundary leakage (e.g., predicting an action is concluding five frames late uniformly across all models).
 
 #### Extra Objectives
-- Soft-NMS post-processing: merge overlapping detections
-- Compare with Mamba-based models
+- Establish a Soft-NMS (Non-Maximum Suppression) post-processing subroutine mathematically merging overlapping temporal detections.
+- Deploy Mamba-based modules evaluating alternative state-space calculations over recursive attention boundaries to mitigate long-string decay.
 
 ---
 
@@ -406,22 +380,21 @@ Train a model to segment actions from video assigning a label to each frame.
 **Reference Module**: Video Understanding  
 
 #### Problem Description
-Anticipate the action in a video considering the setup of https://github.com/antoninofurnari/rulstm.
+The highest level of automated video intelligence is predictive. Instead of merely logging that a chef is slicing a carrot, a robust architecture will actively anticipate that the next immediate action requires picking up a bowl. Transitioning from recognition to anticipation flips the paradigm entirely forward, requiring complex memory states modeling historical context to probabilistically chart impending procedural sequences utilizing the proven RULSTM challenge paradigm.
 
 #### Dataset
-- **EPIC-KITCHENS** (https://epic-kitchens.github.io)
-- Pre-extracted features from https://github.com/antoninofurnari/rulstm (or newer features if available)
-- Look at the action anticipation challenge (https://www.codabench.org/competitions/14471/)
+- **EPIC-KITCHENS** (https://epic-kitchens.github.io).
+- Exploit pre-extracted foundational temporal features. Analyze mechanics through the CodaBench anticipation challenge specifications (https://www.codabench.org/competitions/14471/).
 
 #### Minimum Objectives
-1. RULSTM baseline from https://github.com/antoninofurnari/rulstm
-2. xLSTM-based model
-3. Mamba-based model
-4. Compare the three models
+1. **Baseline**: Deploy the foundational RULSTM model mathematically establishing standard horizon-focused predictive accuracy markers.
+2. **xLSTM Integration**: Implement an extended Long Short-Term Memory logic core addressing temporal decay drop-offs and complex procedural dependencies.
+3. **SSM Deployment**: Run a state-space sequential model (Mamba/Hippo variant) analyzing temporal contextual propagation.
+4. **Evaluation**: Benchmark all three foundational concepts against the primary top-5 horizon accuracy parameters charting degradation relative to distance of the impending action.
 
 #### Extra Objectives
-- Re-implement RULSTM with an xLSTM and compare with others
-- Compare with Transformer-based models
+- Re-architect the core RULSTM pipeline swapping native memory modules entirely for the xLSTM protocol charting specific memory drop-out recoveries.
+- Expand parameterization to include modern sparse Attention networks (Transformers) measuring efficiency and anticipation scaling limits.
 
 ---
 
@@ -431,24 +404,21 @@ Anticipate the action in a video considering the setup of https://github.com/ant
 **Reference Module**: Vision & Language  
 
 #### Problem Description
-Align video features with text using a contrastive loss (CLIP style). Allows text queries for videos (e.g., "person chopping vegetables" → find similar videos).
+Searching for videos traditionally relies on manually curated metadata rather than visual content. This project explores zero-shot cross-modal retrieval by aligning video features with natural language text using a contrastive loss model reminiscent of CLIP. You will generate an embedding space where a raw video clip correctly aligns with its descriptive textual sentence allowing for robust, arbitrary text queries like "person chopping vegetables".
 
 #### Dataset
-- **EPIC-KITCHENS** (https://epic-kitchens.github.io)
-- Loot at the multi-instance retrieval challenge (https://www.codabench.org/competitions/12008/)
+- **EPIC-KITCHENS** (https://epic-kitchens.github.io).
+- Utilize the multi-instance retrieval challenge metadata (https://www.codabench.org/competitions/12008/).
 
 #### Minimum Objectives
-1. **Video encoder**: pre-trained (TimeSformer, SlowFast) - extract features
-2. **Text encoder**: pre-trained (BERT, DistilBERT) - extract features
-3. **Contrastive loss**: Train an alignment module (e.g. FC layers) on top of the pre-trained encoders
-4. Training and evaluation:
-   - Text-to-video retrieval: given text, find a similar video
-   - Metric: R@1, R@5, R@10 (top-K recall)
-5. Report: does zero-shot search work?
+1. **Baseline**: Use a pre-trained frozen video encoder and a frozen text encoder, mapping both directly through an untrained linear layer to attempt retrieval.
+2. **Video & Text Encoders**: Utilize robust architectural foundations (e.g., TimeSformer/SlowFast for video, BERT/DistilBERT for text) to extract respective features.
+3. **Contrastive Loss Alignment**: Train a dedicated alignment module (typically multi-layer perceptrons) acting on top of the encoders enforcing identical embedding mapping for positive visual/text pairs.
+4. **Evaluation**: Benchmark text-to-video capabilities evaluating R@1, R@5, R@10 (top-K recall values). Explicitly define and test zero-shot capabilities acting on entirely unseen verbs/nouns.
 
 #### Extra Objectives
-- Fine-tuning encoder (vs frozen)
-- Failure analysis: which pairs does the model confuse?
+- Transition from frozen encoders to full model fine-tuning noting improvements versus massive computational cost increases.
+- Provide qualitative failure analysis demonstrating which verb/noun pairings consistently confuse the modality mapping algorithm.
 
 ---
 
@@ -458,26 +428,21 @@ Align video features with text using a contrastive loss (CLIP style). Allows tex
 **Reference Module**: Video Understanding  
 
 #### Problem Description
-Classify actions by simultaneously exploiting video and audio. More modalities = more robustness.
+In the physical world, sound is an incredible precursor and confirmation of action. Evaluating video alone discards critical discriminative markers—such as the sizzling of a pan heavily implying "frying." This project integrates parallel modalities to maximize recognition robustness, requiring you to engineer a dual-stream architecture analyzing both visual frame sequences and raw auditory wave outputs simultaneously.
 
 #### Dataset
-- **EPIC-KITCHENS** (https://epic-kitchens.github.io)
-- Look at the action recognition challenge (https://www.codabench.org/competitions/13636/)
+- **EPIC-KITCHENS** (https://epic-kitchens.github.io).
+- Assess structures via the action recognition challenge parameters (https://www.codabench.org/competitions/13636/).
 
 #### Minimum Objectives
-1. **Video encoder**: 3D CNN
-2. **Audio encoder**: 1D CNN on spectrogram (librosa)
-3. **Fusion strategy**: embedding concatenation + FC
-4. Loss: standard CE
-5. Evaluation: 
-   - Multimodal accuracy (all 2 modalities)
-   - Single modality accuracy (for comparison)
-   - Contribution analysis: which modality counts the most?
+1. **Baseline**: A foundational uni-modal Vision isolated 3D CNN (and alternatively, an isolated Audio 1D CNN baseline), benchmarking the independent limits of each sensor.
+2. **Multimodal Encoders**: Deploy dual feature extraction: a 3D CNN iterating on visual frames and a 1D CNN processing extracted Librosa Mel-spectrograms.
+3. **Fusion Architecture**: Implement a late-fusion embedding concatenation strategy bound by a centralized fully-connected classification head.
+4. **Evaluation**: Compare fused multimodal classification accuracy against the isolated uni-modal baselines. Extract quantitative data mapping audio vs. video contribution metrics highlighting which modality leads which class.
 
 #### Extra Objectives
-- Missing modality: robustness when video/audio/text is missing
-- Cross-modal attention (perceiver-like module for audio-video fusion)
-- Analysis of late vs early fusion
+- Execute a missing-modality ablation: artificially silence the audio or blackout the video mid-inference charting architectural robustness.
+- Discard simple concatenation for an intermediate Cross-modal Attention mechanism (e.g., a Perceiver-like bottleneck module).
 
 ---
 
@@ -487,26 +452,21 @@ Classify actions by simultaneously exploiting video and audio. More modalities =
 **Reference Module**: Video Understanding  
 
 #### Problem Description
-Combine egocentric video (from a first-person point of view) with gaze tracking (where the person is looking) to understand what they are doing.
+Human attention is highly localized during procedural interaction. Where an actor chooses to physically look is frequently an early temporal indicator of their immediate subsequent action. By injecting physical biometric gaze tracking into standard egocentric video processing, you will force the network to prioritize human-attention clusters, drastically reducing background noise interference in hyper-complex environments.
 
 #### Dataset
-- **EGTEA Gaze+** (https://cbs.ic.gatech.edu/fpv/)
-- Features: video frames + gaze heatmap
+- **EGTEA Gaze+** (https://cbs.ic.gatech.edu/fpv/).
+- Integrates video frames perfectly synchronized with 2D visual gaze tracking heatmaps.
 
 #### Minimum Objectives
-1. **Video encoder**: 2D CNN on frames (ResNet-18)
-2. **Gaze encoder**: 2D CNN on gaze heatmap (Gaussian blob on gaze point)
-3. **Fusion**: embedding concatenation
-4. **Classification**: FC head → action
-5. Evaluation: 
-   - Action accuracy
-   - Ablation: video only vs gaze only vs fused
-6. Report: does gaze really help? In which actions?
+1. **Baseline**: Train a standalone 2D CNN (ResNet-18) natively on the video arrays entirely ignoring the supplied biometric gaze datasets.
+2. **Biometric Encoders**: Establish dual networks: a 2D CNN mapping visual structures and a localized 2D CNN mapping Gaussian focal blobs originating from the gaze coordinates.
+3. **Fusion Mechanism**: Stitch the distinct latent spatial embeddings utilizing concatenation mapping directly to the distinct action classifier.
+4. **Evaluation**: Benchmark action accuracy systematically detailing if and where gaze data functionally improves physical prediction over the uni-modal baseline logic.
 
 #### Extra Objectives
-- Saliency map: where does the model "look" vs where does the person look?
-- Attention bottleneck: is gaze a bottleneck for some actions?
-- Temporal alignment: synchronize video and gaze
+- Construct saliency map visualizations answering: does the mathematical visual-attention of the isolated baseline CNN inherently overlap with biological human gaze?
+- Identify and document semantic bottlenecks, highlighting actions where human gaze provides zero additional contextual advantage.
 
 ---
 
@@ -516,23 +476,21 @@ Combine egocentric video (from a first-person point of view) with gaze tracking 
 **Reference Module**: Advanced Sequential Modeling  
 
 #### Problem Description
-Use State-Space Models (Mamba, Hippo) to find mistake in long procedural videos. Take a dataset with per-frame mistake labels and train a model to predict mistake or not for each frame.
+As procedural timelines expand towards an hour of video, predicting temporal boundaries deteriorates rapidly due to memory constraints within Transformers and memory decay within LSTMs. This project pivots to the mathematics of continuous State-Space Models, relying on recent architectures like Mamba to traverse extraordinarily long rolling sequences memory-efficiently to locate highly anomalous temporal interactions—specifically, mistakes.
 
 #### Dataset
-- **Assembly101** (look for pre-extracted features)
-- Use one of the views
-- Annotations: per-frame mistake labels
+- **Assembly101** (pre-extracted architectural features).
+- Utilize a singular view mapping explicit per-frame annotations targeting distinct error bounds.
 
 #### Minimum Objectives
-1. **Baseline C2F from the original paper**: re-implement the baseline from the original paper and replicate results
-2. **Mamba/SSM**: implementation (or use library: mamba-ssm, ssm-lib)
-3. **xLSTM**: implementation (or use library: xlstm)
-4. **Benchmark**: Mamba vs xLSTM vs Baseline on long sequences
+1. **Baseline**: Implement and successfully replicate the foundational C2F error-detection baseline established in the original data paper.
+2. **Mamba Protocol**: Utilize native SSM libraries (`mamba-ssm`) to replace temporal block processing with continuous state-space matrices.
+3. **xLSTM Variant**: Construct the procedural logic utilizing the distinct xLSTM framework for multi-metric comparison.
+4. **Verification**: Calculate explicit benchmark matrices demonstrating true long-sequence retention mapping Mamba vs xLSTM vs Baseline frameworks.
 
 #### Extra Objectives
-- Compare with online Transformer (TeSTra etc.)
-- Ablation: how does sequence length affect Mamba vs LSTM?
-- Is injecting ground truth actions helpful?
+- Establish an asynchronous testing variant utilizing online temporal Transformers (e.g., TeSTra) mapping relative architectural advantages.
+- Conclude how artificially compressing or expanding the input sequence horizons drastically manipulate performance dependencies between LSTMs and SSMs.
 
 ---
 
@@ -542,26 +500,21 @@ Use State-Space Models (Mamba, Hippo) to find mistake in long procedural videos.
 **Reference Module**: Advanced Sequential Modeling  
 
 #### Problem Description
-Compare Transformer and RNN on procedural step understanding tasks (e.g., Assembly, cooking): which is more effective on procedures?
+Procedural sequential understanding relies on interpreting physical momentum. But does historical inertia genuinely require recurrent looping architectures, or does widespread parallel attention trump sequential logic? By putting highly configured LSTMs directly against heavily parallelized Transformers, this track explicitly maps their performance bounds charting frame-level classification across strict procedural interaction data.
 
 #### Dataset
-- **EGO4D Goal-Step** (https://github.com/facebookresearch/ego4d-goalstep)
-- Consider the online step detection task
-- Look for pre-extracted video features
+- **EGO4D Goal-Step** (https://github.com/facebookresearch/ego4d-goalstep).
+- Apply evaluation via pre-extracted embeddings targeting the explicit online step-detection task sequence.
 
 #### Minimum Objectives
-1. **LSTM baseline**: encoder on video features
-2. **Transformer encoder**: multi-head attention, positional encoding
-3. Training: given past history, classify the current step
-4. Metrics:
-   - Frame-level accuracy (predicts correct step for each frame)
-   - Per-class F1 score
-   - Latency: Transformer vs LSTM inference
+1. **Baseline (RNN)**: Maintain a standard, optimized LSTM array navigating the temporal features iteratively.
+2. **Attention Architecture (Transformer)**: Strip recursive blocks, utilizing absolute Positional Encoding chained with Multi-Head Self-Attention layers exclusively evaluating past episodic histories.
+3. **Classification Mapping**: Both formats must predict current, distinct actions driven exclusively by past temporal momentum limits.
+4. **Evaluation**: Correlate frame-level accuracy alongside strict latency parameters mapping parallel-inference speed vs sequential processing locks.
 
 #### Extra Objectives
-- Hybrid: Transformer + recurrence layer
-- Attention analysis: attention heads specialized for temporal vs contextual?
-
+- Architect a hybridized variant attaching a native recursive layer mathematically preceding the temporal Transformer modules mapping performance benefits.
+- Decipher the Transformer mapping documenting which distinct self-attention heads functionally act generically versus temporally specific.
 
 ---
 
@@ -571,25 +524,21 @@ Compare Transformer and RNN on procedural step understanding tasks (e.g., Assemb
 **Reference Module**: Vision & Language  
 
 #### Problem Description
-Learn joint representations of images and text using a contrastive loss (CLIP style). Allows text queries for images.
+Before expanding to video frameworks, establishing concrete grounding between static spatial imagery and complex syntactic language formatting remains paramount. Creating native zero-shot multi-modal capability forces neural networks to structurally associate words directly with pixel geometry patterns utilizing bidirectional contrastive parameters mirroring modern CLIP deployment methodologies.
 
 #### Dataset
-- **MS-COCO** (https://cocodataset.org/)
-- 1.5M image-text pairs
-- can pick a subset
+- **MS-COCO** (https://cocodataset.org/).
+- Over 1.5M native image-text string correlations (utilizing a workable subset).
 
 #### Minimum Objectives
-1. **Image encoder**: pre-trained (ResNet-50, ViT)
-2. **Text encoder**: pre-trained (BERT, DistilBERT)
-3. **Contrastive loss**: Train an alignment module (e.g. FC layers) on top of the pre-trained encoders
-4. Training and evaluation:
-   - Image-to-text retrieval: given text, find a similar image
-   - Metric: R@1, R@5, R@10 (top-K recall)
-5. Report: does zero-shot search work?
+1. **Baseline**: Use foundational unaligned Image (ViT) and Text (BERT) embeddings chained via a singular linear projection layer.
+2. **Encoders**: Initialize pre-trained CNNs/ViTs paired perfectly with dedicated Transformer NLP logic.
+3. **Contrastive Loss Alignment**: Generate the alignment sub-module trained explicitly across dense batches to minimize intra-modal Euclidean distance mapping.
+4. **Evaluation**: Chart retrieval parameters indexing Image-to-Text capability yielding R@1, R@5, R@10 markers documenting pure zero-shot capability against external inputs.
 
 #### Extra Objectives
-- Fine-tuning encoder (vs frozen)
-- Failure analysis: which pairs does the model confuse?
+- Expand parameters systematically testing frozen architectural encoders versus aggressively un-frozen end-to-end multi-modal fine-tuning.
+- Investigate which semantic image/text pairings most frequently force catastrophic alignment failure.
 
 ---
 
@@ -599,24 +548,21 @@ Learn joint representations of images and text using a contrastive loss (CLIP st
 **Reference Module**: Reinforcement Learning  
 
 #### Problem Description
-An agent learns to select informative frames from a video to reduce computational cost while maintaining good action classification accuracy. This is useful for compressed video.
+Analyzing raw 60 FPS video creates debilitating computational bloat, much of it completely redundant static background motion. To maximize temporal accuracy whilst simultaneously minimizing arithmetic execution logic, this project utilizes Reinforcement Learning to physically train an agent model. This agent actively curates and discards useless frames, acting dynamically inside the video array to retain only universally informative frames required for accurate downstream classification.
 
 #### Dataset
-- **UCF101** (https://www.crcv.ucf.edu/data/UCF101.php)
+- **UCF101** (https://www.crcv.ucf.edu/data/UCF101.php).
 
 #### Minimum Objectives
-1. **EfficientNet-B0** encoder on individual frames as an agent. It predicts a binary probability (select or not).
-2. **ResNet-18** encoder on the full clip as a baseline
-3. **ResNet-18** encoder on the selected frames (after binary classification)
-4. **Reward Model** assigns a reward based on the action classification accuracy/loss and number of selected frames. Choose your own reinforcement learning algorithm (e.g. DQN, PPO, etc.)
-5. **Evaluation**:
-   - Action accuracy vs # of selected frames
-   - Comparison: random selection vs learned selection
+1. **Baseline**: A standard ResNet-18 array ingesting universally defined/random uniform frame samples without dynamic selectivity logic.
+2. **Agent Module**: A rapid EfficientNet-B0 format analyzing physical frames emitting binary predictions signaling immediate retention or discard protocols.
+3. **Downstream Execution**: Apply the heavy baseline ResNet-18 exclusively targeting the fractional retained batch frame lists.
+4. **Evaluation & Reward**: Deploy Reinforcement protocols (e.g., REINFORCE, DQN) manipulating the native Reward structure penalizing heavy frame counts while hyper-rewarding explicit downstream action accuracy.
+5. **Metric Reporting**: Graph functional action accuracy explicitly mapped directly against physical frame retention limits charting agent effectiveness versus manual random baseline filtering.
 
 #### Extra Objectives
-- Compare multiple reinforcemnt learning algorithms
-- Compare with other frame selection methods (random, uniform, etc.)
-- Compare different reward models
+- Switch foundational learning protocols alternating between DQN and PPO noting variance in training stabilization.
+- Manipulate internal reward math experimenting heavily with linear vs exponential frame retention penalties.
 
 ---
 
@@ -626,23 +572,20 @@ An agent learns to select informative frames from a video to reduce computationa
 **Reference Module**: Reinforcement Learning  
 
 #### Problem Description
-Train an agent to play Super Mario Bros using deep reinforcement learning. The agent receives a reward based on the distance traveled, coins collected, and enemies defeated.
+Reinforcement learning shifts neural prediction to dynamic interaction format where an agent observes an active state, selects an explicit directional action, and receives immediate deterministic environmental feedback. In this classic simulation logic project, you will build and iterate a Q-Learning agent required to observe raw moving pixel states and autonomously decode the mechanics necessary to successfully navigate Super Mario bounds.
 
 #### Dataset
-- **Super Mario Bros** (see here: https://github.com/yfeng997/MadMario)
+- **Super Mario Bros Environment** (Gym Implementation: https://github.com/yfeng997/MadMario).
 
 #### Minimum Objectives
-1. **Agent**: Deep Q-Network (DQN) with a 2D CNN for perception
-2. **Reward Model**: Reward based on distance traveled, coins collected, and enemies defeated
-3. **Comparison**: Compare with other reinforcement learning algorithms (e.g. PPO, etc.)
-4. **Evaluation**:
-   - Cumulative reward over time
-   - Convergence speed
-   - Number of worlds completed
+1. **Baseline**: Instantiate a purely generic exploration agent emitting fully randomized movements mapping rudimentary survival times establishing absolute minimum benchmarks.
+2. **Perception Module**: Encode spatial simulation data via rapid 2D CNN layers distilling pixel values into numerical environmental embeddings.
+3. **DQN Protocol**: Architect the generalized Deep Q-Network memory formatting predicting explicit scalar rewards mapped to specific environmental button commands.
+4. **Evaluation**: Log explicitly charting massive cumulative training rewards over sequential iterations establishing maximum functional level/distance penetration limits.
 
 #### Extra Objectives
-- Ablate different reward models
-- Experiment with 3D CNNs and temporal models (e.g., RNNs) for action selection (agent)
+- Modify the raw reward function actively hyper-rewarding lateral movement momentum over sheer point-score accumulation.
+- Inject sequential historical data utilizing temporal RNN matrices mapped directly alongside spatial observations mitigating positional occlusion mechanics.
 
 ---
 
@@ -652,25 +595,21 @@ Train an agent to play Super Mario Bros using deep reinforcement learning. The a
 **Reference Module**: Reinforcement Learning
 
 #### Problem Description
-Large Language Models often struggle with strict formatting constraints when generating complex outputs. This project involves fine-tuning a small LLM (e.g., 1.5B to 3B parameters) using Group Relative Policy Optimization (GRPO) to output syntactically perfect code or strict JSON structures. Instead of training a memory-intensive neural Reward Model, the system uses a programmatic reward function (such as a JSON linter or Python compiler) to evaluate generations and assign rewards based on successful execution or parsing.
+While Large Language Models generate human-like text admirably, enforcing strict programmatic formatting limitations continuously causes catastrophic parser failures. Rather than relying on fuzzy "Helpfulness" reward models, this system applies Group Relative Policy Optimization (GRPO) to fine-tune generative outputs via a strict, programmatic feedback loop evaluating explicitly if an emitted code or JSON sequence flawlessly compiles and parses.
 
 #### Dataset
-- **Synthetic Data**: Generate a dataset of instructions that require strict formatting (e.g., "Generate a JSON object with the following fields: ...", "Write a Python function that ...").
-- **Reward Model**: A rule-based programmatic function (e.g., `json.loads()` for JSON, or `ast.parse()` for Python) that assigns a high reward $R_i$ for syntactically correct outputs and a penalty for parsing errors.
+- **Synthetic Logic Array**: Generatively create precise instructional requests mandating extreme syntactical accuracy (e.g., Python algorithms / rigid JSON objects).
+- **Rule-Based Reward**: Replace Neural Rewards mathematically assigning scalar values entirely reliant on programmatic validation tools (e.g., `json.loads` / `ast.parse` returning absolute True/False markers).
 
 #### Minimum Objectives
-1. **Agent**: A small pre-trained LLM (e.g., Gemma-2B or Phi-3-mini) utilizing LoRA/PEFT for memory-efficient training. Choose a small enough model that does not work very well on the task.
-2. **Reward Model**: A rule-based programmatic function (e.g., `json.loads()` for JSON, or `ast.parse()` for Python) that assigns a high reward $R_i$ for syntactically correct outputs and a penalty for parsing errors.
-3. **Algorithm**: Implement the GRPO training loop, utilizing the advantage calculation $A_i = \frac{R_i - \mu_R}{\sigma_R}$ across small generation groups.
-4. **Evaluation**:
-   - Syntax error rate / Pass@1 score on a holdout test set
-   - Reward convergence over time
-   - Comparison of format adherence before and after RL fine-tuning
+1. **Baseline**: Evaluate the base programmatic output capabilities of an off-the-shelf lightweight 2B parameter open LLM (yielding naturally poor syntactical adherence).
+2. **Agent Selection**: Integrate the target open-weight model parameterizing memory limits strictly through established LoRA/PEFT architectural boundaries.
+3. **GRPO Implementation**: Code the mathematical training loop exploiting active advantage computations distributed uniformly across minor programmatic generation groups.
+4. **Evaluation**: Quantitatively establish final syntactical adherence limits determining pre- vs post-fine-tuning code Pass@1 metric stability parameters.
 
 #### Extra Objectives
-- Compare the GRPO fine-tuned model's performance against standard Supervised Fine-Tuning (SFT).
-- Ablate different group generation sizes (e.g., $G=4$ vs. $G=8$) to evaluate the impact on training stability and GPU memory usage.
-- Implement a dual-reward system that gives partial points for proper use of `<think>` tags prior to generating the final code.
+- Directly compare format-stabilization results generated by GRPO protocols against standard rigid Supervised Fine-Tuning mapping differences.
+- Integrate an explicitly dualistic reward scaling protocol rewarding intermediate "reasoning" code tags generated prior to returning standard parsing block strings.
 
 ---
 
