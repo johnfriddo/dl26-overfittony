@@ -622,7 +622,7 @@ While Large Language Models generate human-like text admirably, enforcing strict
 | LeMeCla | 3 |
 | BAT 🦇 (Backpropagation Attention Team) | 3 |
 | Deep Team | 3 |
-| Justgood AI | 3 |
+| Justgood AI | 2 |
 | FiCo | 3 |
 | FlyNow | 3 |
 | Overfittony | 3 |
