@@ -26,7 +26,7 @@ This file contains the list of available projects, complete details for each pro
 
 | ID | Title | Reference Module | Suggested Size | Dataset | Assigned |
 | :---: | :--- | :--- | :--- | :--- | :--- |
-| 1 | [Metric Learning for Face Recognition](#project-1) | Metric Learning | Small | CASIA-WebFace | Free |
+| 1 | [Metric Learning for Face Recognition](#project-1) | Metric Learning | Small | CASIA-WebFace | G25 |
 | 2 | [Few-shot Learning for Gesture Recognition](#project-2) | Metric Learning | Medium | HAGRID | Free |
 | 3 | [Graph-based Metric Learning for Scene Understanding](#project-3) | Metric Learning | Large | GQA | Free |
 | 4 | [Feature-based Knowledge Distillation](#project-4) | Knowledge Distillation | Small | CIFAR-100 | Free |
