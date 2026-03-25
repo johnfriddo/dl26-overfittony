@@ -48,7 +48,7 @@ This file contains the list of available projects, complete details for each pro
 | 20 | [Image & Language Representation Learning](#project-20) | Vision & Language | Medium | MS-COCO | Free |
 | 21 | [Deep Reinforcement Learning for Frame Selection in Video](#project-21) | Reinforcement Learning | Large | UCF101 | Free |
 | 22 | [Learn to Play Super Mario Bros with Deep Reinforcement Learning](#project-22) | Reinforcement Learning | Large | Super Mario Bros Environment | Free |
-| 23 | [Align a Small LLM with GRPO for Strict Code or JSON Generation](#project-23) | Reinforcement Learning | Medium | Synthetic Logic Array | Free |
+| 23 | [Align a Small LLM with GRPO for Strict Code or JSON Generation](#project-23) | Reinforcement Learning | Medium | Synthetic Logic Array | G23 |
 
 ## Detailed Project Descriptions
 
@@ -593,7 +593,7 @@ Reinforcement learning shifts neural prediction to dynamic interaction format wh
 
 <a id='project-23'></a>
 ### Track 23: Align a Small LLM with GRPO for Strict Code or JSON Generation
-**Suggested Size**: Large  
+**Suggested Size**: Medium  
 **Reference Module**: Reinforcement Learning
 
 #### Problem Description
