@@ -12,7 +12,7 @@ class EPICSoundsDataset(Dataset):
     tagliarlo usando le annotazioni CSV e convertirlo in Spettrogrammi di Mel.
     """
     
-    def __init__(self, annotations_file: str, hdf5_path: str, sample_rate: int = 24000, target_frames: int = 512):
+    def __init__(self, annotations_file: str, hdf5_path: str, sample_rate: int = 24000, target_frames: int = 1024):
         """
         Args:
             annotations_file (str): Percorso al file CSV (es. EPIC_Sounds_train.csv).

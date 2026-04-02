@@ -21,3 +21,4 @@ dependencies:
       - tqdm
       # Add other pip-only packages here
       - h5py
+      - transformers
