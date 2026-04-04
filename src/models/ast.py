@@ -11,14 +11,22 @@ class EPICASTBaseline(nn.Module):
     def __init__(self, num_classes: int, pretrained_model_name: str = "MIT/ast-finetuned-audioset-10-10-0.4593"):
         super().__init__()
         
-        # 1. Caricamento del modello base (solo feature extractor, senza layer di classificazione)
         self.ast = ASTModel.from_pretrained(pretrained_model_name)
-        
-        # 2. Estrazione della dimensionalità dell'embedding latente (default: 768)
+
+        # --- LAYER FREEZING ---
+        # Congeliamo tutto il modello base per non distruggere i pesi pre-addestrati e scongeliamo solo le parti finali per adattarle al nostro task specifico.
+        for param in self.ast.parameters():
+            param.requires_grad = False
+            
+        for param in self.ast.encoder.layer[-2:].parameters():
+            param.requires_grad = True
+            
+        for param in self.ast.layernorm.parameters():
+            param.requires_grad = True
+
+
         hidden_size = self.ast.config.hidden_size
         
-        # 3. Definizione della Classification Head
-        # Proietta il vettore latente (768) nello spazio delle classi di EPIC-Sounds
         self.classifier = nn.Linear(hidden_size, num_classes)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -27,32 +35,19 @@ class EPICASTBaseline(nn.Module):
         
         Args:
             x (torch.Tensor): Tensore di input proveniente dal DataLoader.
-                              Shape attesa: [Batch, Channels, Mel_bins, Frames] -> [B, 1, 128, 512]
+                              Shape attesa: [Batch, Channels, Mel_bins, Frames] -> [B, 1, 128, 1024]
         Returns:
             torch.Tensor: Logits di output. Shape: [Batch, num_classes]
         """
-        # A. ADATTAMENTO DIMENSIONALE
-        # L'AST di Hugging Face si aspetta una shape [Batch, Frames, Mel_bins]
-        
-        # Rimuoviamo la dimensione del canale mono (dim=1) -> [B, 128, 512]
+
         x = x.squeeze(1) 
         
-        # Trasponiamo l'asse delle frequenze con l'asse temporale -> [B, 512, 128]
         x = x.transpose(1, 2).contiguous()
         
-        # B. ESTRAZIONE DELLE FEATURE
-        # Il modello divide lo spettrogramma in patch, somma i Positional Embeddings 
-        # ed elabora la sequenza tramite i blocchi di Self-Attention.
         outputs = self.ast(input_values=x)
         
-        # C. AGGREGAZIONE GLOBALE
-        # L'output 'last_hidden_state' ha shape [Batch, Sequence_Length, Hidden_Size]
-        # Estraiamo l'embedding associato al [CLS] token, che si trova sempre in posizione 0 
-        # sull'asse della sequenza. Questo vettore condensa l'informazione globale dell'audio.
-        cls_token = outputs.last_hidden_state[:, 0, :] # Shape: [B, 768]
+        cls_token = outputs.last_hidden_state[:, 0, :]
         
-        # D. CLASSIFICAZIONE
-        # Generiamo le probabilità non normalizzate (logits)
         logits = self.classifier(cls_token)
         
         return logits
