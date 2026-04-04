@@ -1,0 +1,142 @@
+wandb_version: 1
+
+_wandb:
+  desc: null
+  value:
+    python_version: 3.11.13
+    cli_version: 0.25.0
+    framework: huggingface
+    huggingface_version: 5.3.0
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1775223193
+    t:
+      1:
+      - 1
+      - 5
+      - 11
+      - 41
+      - 49
+      - 53
+      - 71
+      - 105
+      2:
+      - 1
+      - 5
+      - 11
+      - 41
+      - 49
+      - 53
+      - 71
+      - 105
+      3:
+      - 4
+      - 13
+      - 16
+      - 42
+      4: 3.11.13
+      5: 0.25.0
+      6: 5.3.0
+      13: linux-x86_64
+    e:
+      d2sdjf0uinvg91lij9jzdicn8weo88v9:
+        os: Linux-6.12.48+deb13-amd64-x86_64-with-glibc2.35
+        python: CPython 3.11.13
+        started_at: '2026-04-03T13:33:12.228321Z'
+        args:
+        - --annotations_file
+        - ./data/epic-sounds-annotations/EPIC_Sounds_train.csv
+        - --hdf5_path
+        - ./data/EPIC_audio.hdf5
+        - --batch_size
+        - '8'
+        - --epochs
+        - '50'
+        - --device
+        - cuda
+        - --lr
+        - 1e-4
+        program: -m src.training.trainAST
+        root: /home/rsnnng02c19b202w/dl26-overfittony
+        host: gnode10
+        executable: /opt/conda/bin/python
+        cpu_count: 48
+        cpu_count_logical: 96
+        gpu_type: NVIDIA L40S
+        gpu_count: 1
+        disk:
+          /:
+            total: '67108864'
+            used: '12288'
+        memory:
+          total: '540700598272'
+        gpu_nvidia:
+        - name: NVIDIA L40S
+          memory_total: '48305799168'
+          cuda_cores: 18176
+          architecture: Ada
+          uuid: GPU-95df5edd-5523-a1b9-de62-cc866852ef3f
+        cuda_version: '12.4'
+        slurm:
+          job_qos: gpu-large
+          submit_host: gcluster
+          submit_dir: /home/rsnnng02c19b202w/dl26-overfittony
+          nnodes: '1'
+          jobid: '3868'
+          nodeid: '0'
+          job_num_nodes: '1'
+          mem_per_node: '16384'
+          cluster_name: gcluster
+          job_cpus_per_node: '4'
+          gtids: '0'
+          cpus_on_node: '4'
+          prio_process: '0'
+          job_user: rsnnng02c19b202w
+          job_name: ast_baseline
+          cpus_per_task: '4'
+          topology_addr_pattern: node
+          conf: /etc/slurm/slurm.conf
+          job_start_time: '1775223168'
+          gpus_on_node: '1'
+          job_end_time: '1775266368'
+          task_pid: '620211'
+          localid: '0'
+          job_gid: '1938822188'
+          topology_addr: gnode10
+          job_id: '3868'
+          nodelist: gnode10
+          job_uid: '1938822188'
+          job_account: dl-course-q2
+          shards_on_node: '11264'
+          job_gpus: '2'
+          job_nodelist: gnode10
+          job_partition: dl-course-q2
+          oom_kill_step: '0'
+          tres_per_task: cpu=4
+          procid: '0'
+          tasks_per_node: '1'
+        writer_id: d2sdjf0uinvg91lij9jzdicn8weo88v9
+annotations_file:
+  desc: null
+  value: ./data/epic-sounds-annotations/EPIC_Sounds_train.csv
+hdf5_path:
+  desc: null
+  value: ./data/EPIC_audio.hdf5
+num_classes:
+  desc: null
+  value: 44
+batch_size:
+  desc: null
+  value: 8
+epochs:
+  desc: null
+  value: 50
+lr:
+  desc: null
+  value: 0.0001
+device:
+  desc: null
+  value: cuda
+checkpoint_dir:
+  desc: null
+  value: ./experiments/checkpoints
