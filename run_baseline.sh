@@ -31,6 +31,7 @@ singularity exec --nv /shared/sifs/latest.sif python -m src.training.trainAST \
   --batch_size 8 \
   --epochs 50 \
   --device cuda \
-  --lr 1e-4
+  --lr 5e-5 \
+  --weight_decay 0.05
 
 echo "Addestramento completato."

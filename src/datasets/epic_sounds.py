@@ -62,4 +62,6 @@ class EPICSoundsDataset(Dataset):
         elif current_frames > self.target_frames:
             mel_spec_db = mel_spec_db[:, :, :self.target_frames]
         
+        mel_spec_db = (mel_spec_db - mel_spec_db.mean()) / (mel_spec_db.std() + 1e-6)
+        
         return mel_spec_db, label
