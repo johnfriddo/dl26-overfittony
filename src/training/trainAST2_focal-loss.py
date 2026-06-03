@@ -15,6 +15,11 @@ import wandb
 import numpy as np
 from sklearn.metrics import f1_score
 import torchaudio.transforms as T
+from sklearn.metrics import average_precision_score, balanced_accuracy_score, roc_auc_score
+from sklearn.preprocessing import label_binarize
+import torch.nn.functional as F
+from sklearn.model_selection import GroupShuffleSplit
+import pandas as pd
 
 
 def parse_args():
@@ -30,6 +35,21 @@ def parse_args():
     parser.add_argument("--checkpoint_dir", type=str, default="./experiments/checkpoints", help="Cartella dove salvare i modelli")
     return parser.parse_args()
 
+class FocalLoss(nn.Module):
+    def __init__(self, alpha=1, gamma=2, reduction='mean'):
+        super(FocalLoss, self).__init__()
+        self.alpha = alpha
+        self.gamma = gamma
+        self.reduction = reduction
+
+    def forward(self, inputs, targets):
+        ce_loss = F.cross_entropy(inputs, targets, reduction='none')
+        pt = torch.exp(-ce_loss)
+        focal_loss = self.alpha * (1 - pt) ** self.gamma * ce_loss
+        
+        if self.reduction == 'mean':
+            return focal_loss.mean()
+        return focal_loss.sum()
 
 def main():
     args = parse_args()
@@ -59,16 +79,29 @@ def main():
 
     print(f"Dispositivo in uso: {device}")
 
-    os.makedirs(args.checkpoint_dir, exist_ok=True)
-
 
     print("Caricamento dataset...")
     dataset = EPICSoundsDataset(annotations_file=args.annotations_file, hdf5_path=args.hdf5_path)
     
-    # split 80% Training e 20% Validation
-    train_size = int(0.8 * len(dataset))
-    val_size = len(dataset) - train_size
-    train_dataset, val_dataset = random_split(dataset, [train_size, val_size])
+    os.makedirs(args.checkpoint_dir, exist_ok=True)
+
+    print("Creazione degli split Train/Val basati su video_id...")
+    full_df = pd.read_csv(args.annotations_file)
+    
+    gss = GroupShuffleSplit(n_splits=1, train_size=0.8, random_state=42)
+    train_idx, val_idx = next(gss.split(full_df, groups=full_df['video_id']))
+    
+    train_df = full_df.iloc[train_idx]
+    val_df = full_df.iloc[val_idx]
+    
+    train_csv_path = "temp_train_annotations.csv"
+    val_csv_path = "temp_val_annotations.csv"
+    train_df.to_csv(train_csv_path, index=False)
+    val_df.to_csv(val_csv_path, index=False)
+
+    print("Caricamento dataset...")
+    train_dataset = EPICSoundsDataset(annotations_file=train_csv_path, hdf5_path=args.hdf5_path)
+    val_dataset = EPICSoundsDataset(annotations_file=val_csv_path, hdf5_path=args.hdf5_path)
     
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=0)
     val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=0)
@@ -77,9 +110,9 @@ def main():
     model = EPICASTBaseline(num_classes=args.num_classes)
     model.to(device)
     
-    criterion = nn.CrossEntropyLoss()
+    criterion = FocalLoss(gamma=2.0)
     optimizer = optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    best_val_loss = float('inf')
+    best_map = 0.0
 
     patience = 3  # epoche di tolleranza prima di fermare tutto
     patience_counter = 0
@@ -103,7 +136,6 @@ def main():
         for batch_idx, (inputs, labels) in enumerate(train_loader):
             inputs, labels = inputs.to(device), labels.to(device)
             
-            # applichiamo casualmente le mascherature solo sui dati di training
             inputs = freq_masker(inputs)
             inputs = time_masker(inputs)
 
@@ -130,11 +162,8 @@ def main():
         # --- FASE DI VALIDAZIONE ---
         model.eval()
         val_loss = 0.0
-        correct = 0
-        total = 0
         
-        # liste per l'F1-Score
-        all_preds = []
+        all_probs = []
         all_targets = []
         
         with torch.no_grad():
@@ -145,44 +174,75 @@ def main():
                 loss = criterion(outputs, labels)
                 val_loss += loss.item()
                 
-                _, predicted = torch.max(outputs.data, 1)
-                total += labels.size(0)
-                correct += (predicted == labels).sum().item()
-                
-                all_preds.extend(predicted.cpu().numpy())
+                probs = F.softmax(outputs, dim=1)
+                all_probs.extend(probs.cpu().numpy())
                 all_targets.extend(labels.cpu().numpy())
                 
         avg_val_loss = val_loss / len(val_loader)
-        val_accuracy = 100 * correct / total
         
-        val_f1 = f1_score(all_targets, all_preds, average='macro')
+        # --- CALCOLO METRICHE EPIC-SOUNDS ---
+        all_probs = np.array(all_probs)
+        all_targets = np.array(all_targets)
         
-        print(f"Epoch [{epoch+1}/{args.epochs}] | Train Loss: {avg_train_loss:.4f} | Val Loss: {avg_val_loss:.4f} | Val Acc: {val_accuracy:.2f}% | Val F1: {val_f1:.4f}")
+        # 1. Top-1 Accuracy
+        preds_top1 = np.argmax(all_probs, axis=1)
+        top1_acc = np.mean(preds_top1 == all_targets) * 100
+        
+        # 2. Top-5 Accuracy
+        top5_preds = np.argsort(all_probs, axis=1)[:, -5:] 
+        top5_acc = np.mean([target in top5 for target, top5 in zip(all_targets, top5_preds)]) * 100
+        
+        # 3. mCA (Mean Per-Class Accuracy)
+        mca_acc = balanced_accuracy_score(all_targets, preds_top1) * 100
+        
+        # 4. mAP (Mean Average Precision)
+        targets_onehot = label_binarize(all_targets, classes=range(args.num_classes))
+        
+        try:
+            map_score = average_precision_score(targets_onehot, all_probs, average='macro') * 100
+        except ValueError:
+            map_score = 0.0
+        
+        # 5. mAUC (Mean Area Under ROC Curve)
+        try:
+            mauc_score = roc_auc_score(targets_onehot, all_probs, average='macro', multi_class='ovr') * 100
+        except ValueError:
+            mauc_score = 0.0
+        
+        print(f"Epoch [{epoch+1}/{args.epochs}] | Train Loss: {avg_train_loss:.4f} | Val Loss: {avg_val_loss:.4f}")
+        print(f"Metrics -> Top-1: {top1_acc:.2f}% | Top-5: {top5_acc:.2f}% | mCA: {mca_acc:.2f}% | mAP: {map_score:.2f}% | mAUC: {mauc_score:.2f}%")
         
         wandb.log({
             "epoch": epoch + 1,
             "train/epoch_loss": avg_train_loss,
             "val/loss": avg_val_loss,
-            "val/accuracy": val_accuracy,
-            "val/f1_macro": val_f1
+            "val/top1_acc": top1_acc,
+            "val/top5_acc": top5_acc,
+            "val/mCA": mca_acc,
+            "val/mAP": map_score,
+            "val/mAUC": mauc_score
+            
         })
 
         # --- SALVATAGGIO E EARLY STOPPING ---
-        if avg_val_loss < best_val_loss:
-            best_val_loss = avg_val_loss
+        if map_score > best_map:
+            best_map = map_score
             patience_counter = 0
-            checkpoint_path = os.path.join(args.checkpoint_dir, "best_ast_baseline.pth")
+            checkpoint_path = os.path.join(args.checkpoint_dir, "best_ast_v2.pth")
             torch.save(model.state_dict(), checkpoint_path)
-            print(f"--> Nuovo miglior modello salvato in {checkpoint_path}")
+            print(f"--> Nuovo miglior modello salvato! mAP migliorato a {best_map:.2f}%")
         else:
             patience_counter += 1
-            print(f"--> Nessun miglioramento della Val Loss da {patience_counter} epoche.")
+            print(f"--> Nessun miglioramento del mAP da {patience_counter} epoche (Miglior mAP: {best_map:.2f}%).")
             
             if patience_counter >= patience:
-                print(f"EARLY STOPPING INNESCATO! Il modello non migliora da {patience} epoche.")
+                print(f"EARLY STOPPING INNESCATO! Il mAP non migliora da {patience} epoche.")
                 break
                 
     wandb.finish()
+
+    if os.path.exists(train_csv_path): os.remove(train_csv_path)
+    if os.path.exists(val_csv_path): os.remove(val_csv_path)
 
 if __name__ == "__main__":
     main()
