@@ -924,7 +924,7 @@ Action recognition in videos is inherently expensive due to the added temporal d
 - Provide t-SNE visualizations of the latent space to illustrate the structural differences in how the teacher and student map actions.
 
 <a id='project-33'></a>
-### Reinforcement Learning for Autonomous Driving
+### Track 33: Reinforcement Learning for Autonomous Driving
 **Suggested Size**: Small  
 **Reference Module**: Reinforcement Learning  
 
