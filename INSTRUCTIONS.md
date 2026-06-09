@@ -58,6 +58,7 @@ This file contains the list of available projects, complete details for each pro
 | 30 | [Unsupervised Domain Adaptation for Image Recognition under Domain Shift](#project-30) | Domain Adaptation | Small | Intel Scene Classification, Places | G31 |
 | 31 | [Metric Learning for Face Recognition](#project-31) | Metric Learning | Small | MS1MV2 | G35 |
 | 32 | [Knowledge Distillation for Mobile Action Recognition](#project-32) | Knowledge Distillation | Small | HMDB-51 | G39 |
+| 33 | [Reinforcement Learning for Self-Driving Cars](#project-33) | Reinforcement Learning | Large | Assetto Corsa Gym |  G40 |
 
 ## Detailed Project Descriptions
 
@@ -922,6 +923,27 @@ Action recognition in videos is inherently expensive due to the added temporal d
 - Expand KD to include Attention Transfer across intermediate temporal activation mappings.
 - Provide t-SNE visualizations of the latent space to illustrate the structural differences in how the teacher and student map actions.
 
+<a id='project-33'></a>
+### Reinforcement Learning for Autonomous Driving
+**Suggested Size**: Small  
+**Reference Module**: Reinforcement Learning  
+
+#### Problem Description
+The goal of this project is to train an autonomous driving agent to navigate a race track or highway environment efficiently using visual observations. The agent must learn optimal steering, acceleration, and braking commands by interacting with the environment, optimizing its trajectory based on raw pixel inputs under partial observability.
+
+#### Target Environment 
+* **[Gymnasium CarRacing (CarRacing-v2)](https://gymnasium.farama.org/environments/box2d/car_racing/)**: A classic top-down racing game environment. While it natively supports continuous actions, it also provides a discrete action space variant suitable for value-based methods.
+
+#### Minimum Objectives
+
+* **Vision-Based DQN Baseline**: Implement a **Deep Q-Network (DQN)** that takes raw pixel inputs (top-down view) and maps them to a discretized action space. Use a 2D Convolutional Neural Network (CNN) backbone as a visual feature extractor before the fully connected Q-value layers.
+* **Temporal Dynamics Handling**: Extend the baseline network to capture temporal dynamics (motion, velocity, and acceleration) which cannot be inferred from a single static image. Students should implement **Frame Stacking** (e.g., stacking the 4 most recent frames as channels input to a 2D CNN) and compare its performance and convergence rate against the single-frame baseline.
+    * *Alternative Advanced Architectures:* Optionally explore a 3D CNN encoder or a Deep Recurrent Q-Network (DRQN using an LSTM layer).
+* **Reward Function Engineering**: Analyze how different reward formulations (e.g., purely rewarding track progress/speed vs. penalizing severe lateral deviation or high-frequency steering variance) affect training stability, convergence, and the smoothness of the resulting driving policy.
+* **Quantitative Evaluation**: Report and plot performance using standard metrics: mean episodic reward across training epochs, success rate (percentage of the track completed without going off-road), average lap time, and total environment steps required to reach stability.
+
+#### Extra Objectives
+* **Continuous Control via Actor-Critic**: Transition from a discrete DQN to an **Actor-Critic** framework (such as **Proximal Policy Optimization (PPO)** or **A2C**). This allows the agent to control the vehicle using the environment's native continuous action space (precise steering angles and fluid throttle/brake percentages). Compare the continuous control policy against the discretized DQN policy in terms of lap times and driving smoothness.
 ---
 
 ## Groups
@@ -967,3 +989,4 @@ Action recognition in videos is inherently expensive due to the added temporal d
 | G37 | 1 |
 | G38 | 1 |
 | G39 | 2 |
+| G40 | 1 |
