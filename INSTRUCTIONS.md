@@ -58,7 +58,7 @@ This file contains the list of available projects, complete details for each pro
 | 30 | [Unsupervised Domain Adaptation for Image Recognition under Domain Shift](#project-30) | Domain Adaptation | Small | Intel Scene Classification, Places | G31 |
 | 31 | [Metric Learning for Face Recognition](#project-31) | Metric Learning | Small | MS1MV2 | G35 |
 | 32 | [Knowledge Distillation for Mobile Action Recognition](#project-32) | Knowledge Distillation | Small | HMDB-51 | G39 |
-| 33 | [Reinforcement Learning for Self-Driving Cars](#project-33) | Reinforcement Learning | Large | Assetto Corsa Gym |  G27 |
+| 33 | [Reinforcement Learning for Self-Driving Cars](#project-33) | Reinforcement Learning | Small | Gymnasium CarRacing (CarRacing-v2) |  G27 |
 
 ## Detailed Project Descriptions
 
