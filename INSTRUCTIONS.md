@@ -59,6 +59,7 @@ This file contains the list of available projects, complete details for each pro
 | 31 | [Metric Learning for Face Recognition](#project-31) | Metric Learning | Small | MS1MV2 | G35 |
 | 32 | [Knowledge Distillation for Mobile Action Recognition](#project-32) | Knowledge Distillation | Small | HMDB-51 | G39 |
 | 33 | [Reinforcement Learning for Self-Driving Cars](#project-33) | Reinforcement Learning | Small | Gymnasium CarRacing (CarRacing-v2) |  G27 |
+| 34 | [Learn to Play Atari Pong with Deep Reinforcement Learning](#project-34) | Reinforcement Learning | Small | Gymnasium Atari (Pong-v5) | G40 |
 
 ## Detailed Project Descriptions
 
@@ -944,6 +945,49 @@ The goal of this project is to train an autonomous driving agent to navigate a r
 
 #### Extra Objectives
 * **Continuous Control via Actor-Critic**: Transition from a discrete DQN to an **Actor-Critic** framework (such as **Proximal Policy Optimization (PPO)** or **A2C**). This allows the agent to control the vehicle using the environment's native continuous action space (precise steering angles and fluid throttle/brake percentages). Compare the continuous control policy against the discretized DQN policy in terms of lap times and driving smoothness.
+
+---
+
+<a id='project-34'></a>
+### Track 34: Learn to Play Atari Pong with Deep Reinforcement Learning
+**Suggested Size**: Small  
+**Reference Module**: Reinforcement Learning  
+
+#### Problem Description
+Reinforcement learning foundations rely on the Bellman equation and value-function approximation. This project focuses on **implementing a Deep Q-Network (DQN) agent** from first principles to master a classic Atari game. You will study how neural networks learn to predict action values in a continuous pixel-based state space, understand exploration-exploitation trade-offs, and apply mathematical concepts directly to a well-established benchmark.
+
+#### Environment
+- **Atari Pong** (via Gymnasium ALE): Classic single-player Pong where the agent controls a paddle to bounce a ball.
+  - **State Space**: Raw pixel observations (84×84×4 after preprocessing and frame stacking).
+  - **Action Space**: 3 discrete actions (NOOP, UP, DOWN).
+  - **Reward Signal**: +1 for winning rally, -1 for losing, 0 otherwise.
+  - **Episode Termination**: When episode ends (typically after losing 21 rallies).
+
+#### Minimum Objectives
+1. **State Preprocessing**: Implement image preprocessing (grayscale, resizing to 84×84, frame stacking) to extract meaningful features from raw pixel observations.
+2. **DQN Architecture**: Design a convolutional neural network that:
+   - Takes a 4-frame stack (84×84×4) as input,
+   - Extracts features via convolutional layers,
+   - Outputs Q-values for each action.
+3. **DQN Training Algorithm**: Implement the complete training loop including:
+   - Experience replay buffer (storing state transitions),
+   - Target network (separate from online network) updated periodically,
+   - Temporal Difference (TD) error loss computation,
+   - Epsilon-greedy exploration strategy.
+4. **Training & Convergence**: Train the agent on Pong and track:
+   - Episode rewards over time,
+   - Average score per episode,
+   - Convergence behavior and stability.
+5. **Evaluation**: Compare your agent against:
+   - A random baseline agent,
+   - Standard benchmarks (e.g., human performance on Pong if available online).
+
+#### Extra Objectives
+- **Reward Shaping**: Experiment with modified reward signals (e.g., reward for maintaining rally length) and analyze mathematical impact on convergence.
+- **Epsilon-Greedy Ablation**: Study exploration schedules (linear decay, exponential decay, constant) via learning curves and convergence speed.
+- **Double DQN**: Analyze Q-value overestimation by implementing Double DQN (search on the internet) using the Bellman equation with decoupled action selection and evaluation.
+- **Visualization**: Plot TD error distributions, Q-value estimates, and policy heatmaps to interpret learned behavior mathematically.
+
 ---
 
 ## Groups
@@ -989,3 +1033,4 @@ The goal of this project is to train an autonomous driving agent to navigate a r
 | G37 | 1 |
 | G38 | 1 |
 | G39 | 2 |
+| G40 | 1 |
