@@ -75,11 +75,11 @@ Tutti i risultati sono riportati sul test set. La metrica principale top-1 accur
 
 | Modello | Verbo | Nome | Azione |
 | :--- | :---: | :---: | :---: |
-| ResNet-50 single-frame (baseline) | 34.2 | 21.2 | 9.5 |
-| Late pooling (8 frame) | 39.4 | 29.0 | 15.4 |
+| ResNet-50 Single-Frame (baseline) | 34.2 | 21.2 | 9.5 |
+| **Late pooling (8 frame)** | **39.4** | **29.0** | **15.4** |
 | Late FC (8 frame) | 42.1 | 22.9 | 14.3 |
 | Early fusion (8 frame) | 33.9 | 16.0 | 8.5 |
-| **SlowFast-R50 (32 frame) — modello scelto** | **50.3** | **32.0** | **20.6** |
+| **SlowFast-R50 (32 frame)** | **50.3** | **32.0** | **20.6** |
 
 SlowFast guida anche sulle altre metriche misurate (top-5, mAP e mean class accuracy); la tabella completa per metrica è riportata in [utils/risultati_test_all.csv]
 
@@ -98,9 +98,11 @@ L'**Early Fusion** è la peggiore in assoluto (azione 8.5, persino sotto la base
 
 ### 7.1 Contribution Breakdown
 *Detail clearly who did what within the group.*
-- **Person 1**: ...
-- **Person 2**: ...
-- **Person 3**: ...
+- **Antonio Rosano**: ...
+
+- **Marco Gionfriddo**: Elaborazione del subset del dataset EPIC-KITCHENS-100 e training di tutti i modelli Teacher.
+
+- **Kevin Speranza**: ...
 
 ### 7.2 Use of Artificial Intelligence
 *Declare here the possible use of tools like Copilot or ChatGPT, specifying in which phases they helped you (e.g., writing boilerplate, debugging, documentation), keeping in mind that the architectural design and the responsibility for the result are yours.*
