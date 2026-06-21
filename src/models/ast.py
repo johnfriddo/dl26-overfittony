@@ -24,7 +24,6 @@ class EPICASTBaseline(nn.Module):
         for param in self.ast.layernorm.parameters():
             param.requires_grad = True
 
-
         hidden_size = self.ast.config.hidden_size
         
         self.classifier = nn.Linear(hidden_size, num_classes)
