@@ -25,7 +25,7 @@ class EPICEfficientATBaseline(nn.Module):
         # pretrained_name=None gli impedisce di cercare internet.
         self.backbone = get_model(width_mult=1.0, pretrained_name=None) 
         
-        local_weights_path = os.path.join(base_path, 'EfficientAT', 'resources', 'mn10_as_mAP_471.pt')
+        local_weights_path = os.path.abspath(os.path.join(base_path, '../evaluation/resources/mn10_as_mAP_471.pt'))        
         checkpoint = torch.load(local_weights_path, map_location='cpu')
         
         state_dict = checkpoint['model'] if 'model' in checkpoint else checkpoint
