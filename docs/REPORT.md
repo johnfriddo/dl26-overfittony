@@ -15,18 +15,38 @@ La nostra ipotesi iniziale è che sia possibile addestrare un modello leggero (S
 Abbiamo costruito un'intera pipeline di addestramento sfruttando i dataset sincronizzati EPIC-Kitchens ed EPIC-Sounds. Nello specifico:
 - **Baseline Audio ed Extra Objective:** Abbiamo sviluppato una baseline audio basata su AST, introducendo accorgimenti specifici per il dataset (Focal Loss per lo sbilanciamento delle classi, GroupShuffleSplit per evitare data leakage). Inoltre, abbiamo completato un Extra Objective implementando un'architettura specificamente progettata per l'Edge (EfficientAT), quantificandone i benefici in un benchmark locale.
 - **Teacher Visivo ed Extra Objective:** Abbiamo superato la baseline richiesta (ResNet-50 single-frame) esplorando e confrontando diverse tecniche di *temporal fusion* (late pooling, late FC, early fusion) per catturare la dinamica dell'azione, arrivando a implementare un'architettura SlowFast 3D a doppio percorso.
-- **Distillazione:** *[Da completare a cura di Kevin inserendo la loss di distillazione utilizzata e l'approccio scelto]*
+- **Distillazione Cross-Modale:** Abbiamo costruito una pipeline di allineamento tra EPIC-Sounds ed EPIC-Kitchens per ottenere coppie (audio, video) temporalmente coerenti. Poiché i label space di teacher e student sono incompatibili, abbiamo adottato una distillazione feature-based (FitNets): un projector lineare mappa l'embedding audio dello student nello spazio visivo del teacher.
 
 ## 3. Dati Utilizzati
 
 **Sbilanciamento e Prevenzione del Data Leakage**
-Analizzando le annotazioni, sia per  **EPIC-KITCHENS-100** che per **EPIC-Sounds**, è emerso un fortissimo sbilanciamento delle classi (long-tail distribution). Inoltre, per evitare fenomeni di *data leakage* — dove clip audio estratte dallo stesso video originale (con lo stesso rumore di fondo) finiscono sia in train che in validation — lo split dei dati è stato gestito tramite `GroupShuffleSplit`. Questo garantisce che i set di validazione contengano esclusivamente ambienti mai visti durante il training.
+Analizzando le annotazioni, sia per  **EPIC-KITCHENS-100** che per **EPIC-Sounds**, è emerso un fortissimo sbilanciamento delle classi (long-tail distribution). Inoltre, per evitare fenomeni di *data leakage* - dove clip audio estratte dallo stesso video originale (con lo stesso rumore di fondo) finiscono sia in train che in validation - lo split dei dati è stato gestito tramite `GroupShuffleSplit`. Questo garantisce che i set di validazione contengano esclusivamente ambienti mai visti durante il training.
 
 ### Dataset Audio (Baseline / Student)
 I modelli audio sono addestrati sul dataset **EPIC-Sounds**, che fornisce tracce sonore perfettamente allineate ai video di EPIC-Kitchens. Il task in questo dominio è una classificazione multiclasse singola su 44 etichette sonore.
 
 **Preprocessing Audio**
 I segmenti audio vengono estratti dal file HDF5 e convertiti al volo in Spettrogrammi di Mel (128 bin). Per rispettare i rigidi vincoli dimensionali dei Transformer, è stata implementata una logica di padding e troncamento dinamico che forza ogni spettrogramma a una lunghezza temporale fissa di 1024 frame. Infine, l'input viene convertito in decibel e normalizzato.
+
+### Dataset Cross-Modale (Student)
+
+Lo student necessita, durante il training, di coppie **(audio, video) temporalmente coerenti**: ogni clip audio deve essere associata al frame video che descrive la stessa azione nello stesso momento. EPIC-Sounds e EPIC-Kitchens annotano gli stessi video ma con granularità temporale incompatibile - le annotazioni sonore durano tipicamente 0.5–2s, quelle video 8–15s - e non forniscono queste coppie out-of-the-box.
+
+La pipeline di allineamento procede per fasi: prima un join sullo stesso `video_id` produce tutte le coppie candidate, poi si applica un filtro di allineamento temporale per scartare le coppie in cui il contesto video è incoerente con l'evento sonoro.
+
+La prima versione del filtro utilizzava **tIoU** con soglia ~0.2:
+
+$$\text{tIoU} = \frac{\text{overlap}}{\text{durata\_audio} + \text{durata\_video} - \text{overlap}}$$
+
+Il problema emerso è strutturale: le annotazioni video durano tipicamente ~10s, quelle audio ~1–2s. Un evento sonoro perfettamente contenuto dentro un'azione video dà $\text{tIoU} \approx 2 / 10 = 0.20$ - al limite della soglia anche in condizioni ideali. L'unione è sempre dominata dalla durata video, penalizzando sistematicamente i suoni brevi indipendentemente dalla qualità dell'allineamento.
+
+Si è quindi adottato il **containment ratio** con soglia ≥ 0.5:
+
+$$\text{containment} = \frac{\text{overlap}}{\text{durata\_audio}}$$
+
+Questa metrica misura quale frazione dell'evento sonoro è coperta dall'annotazione video, ignorando l'estensione temporale dell'azione. Con soglia ≥ 0.5 si garantisce che almeno metà dell'evento sonoro cada dentro l'azione video - condizione sufficiente per rendere il segnale del teacher coerente. Si tiene la coppia con containment più alto, una per evento. Il validation set rimane audio puro (EPIC-Sounds senza join), garantendo confrontabilità diretta con il baseline AST.
+
+Il filtro produce **~7.000 coppie allineate** di training contro le ~48.600 annotazioni del baseline AST (−85%). La riduzione non è uniforme per classe: i suoni brevi (cut/chop, beep, click) tendono a non coincidere con nessuna singola annotazione video, con perdite fino al 96% dei sample. 28 classi su 44 rimangono con meno di 50 sample nel training cross-modale.
 
 ### Dataset Video (Teacher)
 Il **Teacher** è addestrato e valutato sul dataset *EPIC-KITCHENS-100*, dataset egocentrico su video di cucina. Ogni segmento è annotato con una coppia (verbo, nome) e il task del Teacher è riconoscere le azioni a partire dai frame RGB.
@@ -94,6 +114,24 @@ Per introdurre informazione temporale senza cambiare backbone, abbiamo confronta
 **SlowFast-R50**
 SlowFast-R50 usa due percorsi paralleli fusi tramite connessioni laterali: un percorso *Slow*, a bassa frequenza di frame, più bravo a classificare gli oggetti (i nomi), e un percorso *Fast*, ad alta frequenza di frame, più bravo a catturare il movimento (i verbi). Feature a 2304, clip da 32 frame.
 
+### Student - Distillazione Cross-Modale
+
+#### Scelta del Metodo di Distillazione
+
+Il metodo classico di Knowledge Distillation (Vanilla KD) allinea le distribuzioni di probabilità finali tramite KL divergence tra i soft logits di teacher e student. Nel nostro caso questo approccio è inapplicabile: il teacher produce logit su 97 verbi + 300 nomi, lo student classifica 44 classi audio - spazi di label semanticamente e dimensionalmente incompatibili.
+
+La scelta ricade su **FitNets (feature-based distillation)**: invece di allineare gli output, si allineano i vettori latenti intermedi. Teacher e student producono entrambi un embedding indipendente dalle label finali, e un projector lineare (`nn.Linear` 768->2048) impara a mappare lo spazio audio in quello visivo.
+
+L'architettura dello student è duale: dall'embedding 768-dim di AST escono due rami paralleli - la *Classification Head* (-> 44 classi -> Task Loss) e il *Projector* (768->2048 -> Distill Loss). Il teacher ResNet-50 è frozen e produce solo il proprio embedding 2048-dim, che confluisce nella stessa Distill Loss.
+
+La loss totale è:
+
+$$\mathcal{L} = \lambda \cdot \mathcal{L}_{task} + (1 - \lambda) \cdot \mathcal{L}_{distill}$$
+
+$$\mathcal{L}_{distill} = d\bigl(\text{Projector}(z_{audio}),\ z_{video}\bigr)$$
+
+dove $d(\cdot,\cdot)$ è stata variata negli esperimenti (MSE o cosine distance) e $\lambda$ bilancia i due contributi. Il teacher utilizzato è ResNet-50 Late Pooling su 8 frame. Il backbone dello student è inizializzato con i pesi del baseline AST (*warm start*): senza, il mAP a ep 1 parte da ~3–5%; con warm start parte già a ~10–11%.
+
 ## 5. Risultati e Discussione
 
 ### Risultati Baseline Audio-Only ed Efficienza Computazionale
@@ -130,10 +168,46 @@ Il confronto fra le varianti di fusion racconta una dicotomia coerente. **Late F
 
 L'**Early Fusion** è la peggiore in assoluto (azione 8.5, persino sotto la baseline Single-Frame). Probabilmente impilare i frame sul canale di ingresso distrugge i filtri di basso livello pre-addestrati su ImageNet e gonfia di parametri il primo strato, portando a overfitting: un singolo livello di mescolamento temporale ai layer bassi non è sufficiente a estrarre dinamica utile.
 
-**SlowFast** domina ogni metrica (verbo 50.3, nome 32.0, azione 20.6 — più del doppio della baseline sull'azione). È l'unico modello forte su entrambi gli assi: il percorso Fast cattura il movimento (verbi/azioni), il percorso Slow l'aspetto (oggetti). 
+**SlowFast** domina ogni metrica (verbo 50.3, nome 32.0, azione 20.6 - più del doppio della baseline sull'azione). È l'unico modello forte su entrambi gli assi: il percorso Fast cattura il movimento (verbi/azioni), il percorso Slow l'aspetto (oggetti). 
+
+### Student
+
+Sono stati condotti 4 esperimenti variando la loss di distillazione e il bilanciamento $\lambda$, mantenendo fissi: teacher ResNet-50 late_pool T8, lr=1e-5, batch effettivo 64 (16 × 4 gradient accumulation), label smoothing 0.1, early stopping su patience=6.
+
+| Exp | distill_loss | $\lambda$ | Best mAP | @ ep |
+| :--- | :---: | :---: | :---: | :---: |
+| Exp 0 | MSE | 0.5 | **17.30%** | 4 |
+| Exp 1a | MSE | 0.3 | 16.30% | 8 |
+| Exp 1b | MSE | 0.7 | 16.21% | 8 |
+| Exp 2 | Cosine | 0.5 | 16.25% | 12 |
+
+- **Exp 0 - MSE, $\lambda$=0.5**: configurazione di partenza con bilanciamento equo tra task loss e distill loss. Si voleva verificare se la distillazione feature-based con MSE fosse in grado di trasferire struttura visiva utile mantenendo le performance audio. Il mAP raggiunge ~17.3% a ep 4 ma poi degrada: la MSELoss ha range numerico più ampio della CE e tende a dominare il gradiente, inducendo overfitting sui target geometrici visivi a scapito della classificazione audio.
+
+- **Exp 1a - MSE, $\lambda$=0.3**: dopo il picco precoce di Exp 0, si è voluto verificare se aumentare il peso della distillazione (meno task loss) potesse migliorare il trasferimento di conoscenza visiva. Il mAP si ferma a ~16.3% a ep 8: dare più peso alla distillazione non migliora il risultato, confermando che il problema non è la quantità di segnale visivo trasferito.
+
+- **Exp 1b - MSE, $\lambda$=0.7**: speculare a Exp 1a, si è verificato se ridurre il peso della distillazione proteggesse meglio le performance audio. Il mAP raggiunge ~16.2% a ep 8. Il risultato è sostanzialmente identico a Exp 1a: variare $\lambda$ non sposta il mAP finale, escludendo il bilanciamento come causa del limite.
+
+- **Exp 2 - Cosine, $\lambda$=0.5**: chiuso il caso MSE, si è ipotizzato che il problema fosse nella metrica di distanza piuttosto che nel bilanciamento. La MSE penalizza le differenze assolute tra i vettori del teacher e dello student: se i due spazi latenti hanno scale diverse - plausibile nel caso cross-modale dove audio e video sono elaborati da architetture molto diverse - la loss risultante è dominata da differenze di magnitudo che non riflettono necessariamente una distanza semantica reale. La loss cosine ignora la magnitudo e misura solo quanto le due rappresentazioni puntano nella stessa direzione nello spazio latente, concentrandosi sulla struttura semantica relativa. Si è ipotizzato quindi che potesse essere una metrica più adatta per il trasferimento cross-modale. La convergenza è infatti più stabile e prolungata (ep 12 vs ep 4 di Exp 0), senza il picco precoce seguito da degradazione. Il mAP finale (~16.3%) rimane però dello stesso ordine di grandezza degli esperimenti MSE: la funzione di distanza influenza la stabilità della convergenza ma non il risultato finale, che è determinato dalla quantità e qualità dei dati cross-modali disponibili.
+
+| Modello | Train samples | mAP |
+| :--- | :---: | :---: |
+| Baseline AST CE | ~48.600 | 23.0% |
+| **Student MSE $\lambda$=0.5 (Exp 0)** | ~7.200 | **17.3%** |
+| Student Cosine $\lambda$=0.5 (Exp 2) | ~7.200 | 16.3% |
+
+Il confronto mostra un calo di ~6 punti di mAP rispetto alla baseline, nonostante l'85% di dati in meno. Il mAP è una media per classe e viene trascinato verso il basso dalle classi con pochi sample nel training cross-modale - le classi frequenti sono classificate correttamente, ma quelle rare non hanno abbastanza esempi per essere apprese. La distillazione ha trasferito struttura geometrica dallo spazio visivo a quello audio, ma non ha potuto compensare la scarsità di dati per le classi penalizzate dal filtro di allineamento.
+
+Tutti e quattro gli esperimenti restituiscono un mAP compreso tra ~16% e ~17%, indipendentemente dalla loss di distillazione e dal bilanciamento $\lambda$. Variare ulteriormente questi parametri non avrebbe fornito informazioni nuove: il segnale convergente suggeriva che il limite fosse strutturale e non dipendente dalle scelte di training. Le cause e le possibili direzioni future sono discusse in dettaglio nella sezione conclusioni.
 
 ## 6. Conclusion and Limitations
-*Summarize the project's outcome. What are the current limitations (e.g., requires too much memory, fails in low-light conditions)? If you had more time, what future experiments would you run?*
+
+La distillazione cross-modale audio->video è fattibile: il metodo FitNets trasferisce struttura geometrica dallo spazio visivo a quello audio, preservando quasi intatto il Top-1 dello student (46.4% vs 48.0% baseline) con l'85% di dati in meno. Tuttavia il mAP cala da 23% a 17%, poiché la metrica media per classe è sensibile alle 28 classi con meno di 50 sample nel training cross-modale.
+
+Il principale limite è strutturale: il filtro di contenimento temporale necessario per costruire coppie (audio, video) coerenti abbatte drasticamente i dati disponibili, e l'abbattimento non è uniforme - colpisce in modo sproporzionato le classi con suoni brevi e discreti (cut/chop, beep, click) che non coincidono con nessuna singola annotazione video. Il subset di EPIC-Kitchens utilizzato per il teacher limita inoltre la varietà di scene che il segnale di distillazione può coprire.
+
+Variare la loss di distillazione (MSE vs cosine) o il bilanciamento $\lambda$ non sposta il risultato finale: tutti gli esperimenti convergono a ~16–17% mAP, confermando che il collo di bottiglia è il dataset, non l'architettura.
+
+Con più tempo e risorse, le direzioni più promettenti sarebbero: (1) usare i dataset completi di EPIC-Kitchens ed EPIC-Sounds per recuperare le coppie perse; (2) sostituire FitNets con distillazione contrastiva (InfoNCE), che invece di allineare feature punto per punto impara relazioni relative nel batch - più robusta con dati scarsi e allineamento rumoroso; (3) adottare un teacher temporale (SlowFast) al posto di ResNet-50 su frame singoli, per fornire feature più ricche sugli eventi sonori brevi.
 
 ## 7. Additional Information
 
@@ -143,7 +217,8 @@ L'**Early Fusion** è la peggiore in assoluto (azione 8.5, persino sotto la base
 
 - **Marco Gionfriddo**: Elaborazione del subset del dataset EPIC-KITCHENS-100 e training di tutti i modelli Teacher.
 
-- **Kevin Speranza**: ...
+- **Kevin Speranza**: Costruzione della pipeline di allineamento cross-modale. Iplementazione dell'architettura student con projector. Training e analisi degli esperimenti di distillazione (MSE vs Cosine, ablation su $\lambda$).
 
 ### 7.2 Use of Artificial Intelligence
-*Declare here the possible use of tools like Copilot or ChatGPT, specifying in which phases they helped you (e.g., writing boilerplate, debugging, documentation), keeping in mind that the architectural design and the responsibility for the result are yours.*
+
+Strumenti di AI generativa (Claude, ChatGPT) sono stati utilizzati a supporto della scrittura della documentazione, della generazione di boilerplate di codice e del debugging. Le scelte progettuali, architetturali e l'interpretazione dei risultati sono di esclusiva responsabilità del gruppo.
