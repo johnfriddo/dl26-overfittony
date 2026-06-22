@@ -4,17 +4,17 @@
 
 ---
 
-## 1. Introduction and Objective
+## 1. Introduzione e Obiettivo
 L'obiettivo di questo progetto è implementare una pipeline di *Cross-Modal Knowledge Distillation* per superare i limiti hardware dei sistemi di Edge Computing (es. robotica, domotica, wearable). 
 
 In contesti reali, l'elaborazione di flussi video continui garantisce un'ottima comprensione dell'ambiente, ma richiede risorse computazionali ed energetiche elevate. Di contro, i microfoni offrono un'alternativa leggera e a bassissimo consumo. Tuttavia, i modelli addestrati esclusivamente sull'audio soffrono di *Modality Hallucination*: in assenza di contesto visivo, faticano a distinguere suoni complessi o ambigui (es. tagliare una cipolla vs. tagliare la carne).
 
 La nostra ipotesi iniziale è che sia possibile addestrare un modello leggero (Student), capace di operare solo su input audio, distillando al suo interno la "conoscenza visiva" estratta da un modello pesante (Teacher) addestrato sui frame video. In questo modo, in fase di inferenza, lo Student audio simulerà il contesto visivo mancante pur operando sui vincoli stringenti dell'Edge.
 
-## 2. Contribution and Added Value
+## 2. Contributo e Valore Aggiunto
 Abbiamo costruito un'intera pipeline di addestramento sfruttando i dataset sincronizzati EPIC-Kitchens ed EPIC-Sounds. Nello specifico:
-- **Baseline Audio ed Extra Objective:** Abbiamo sviluppato una baseline audio basata su AST, introducendo accorgimenti specifici per il dataset (Focal Loss per lo sbilanciamento delle classi, GroupShuffleSplit per evitare data leakage). Inoltre, abbiamo completato un Extra Objective implementando un'architettura specificamente progettata per l'Edge (EfficientAT), quantificandone i benefici in un benchmark locale.
-- **Teacher Visivo ed Extra Objective:** Abbiamo superato la baseline richiesta (ResNet-50 single-frame) esplorando e confrontando diverse tecniche di *temporal fusion* (late pooling, late FC, early fusion) per catturare la dinamica dell'azione, arrivando a implementare un'architettura SlowFast 3D a doppio percorso.
+- **Baseline Audio ed Obiettivo Extra:** Abbiamo sviluppato una baseline audio basata su AST, introducendo accorgimenti specifici per il dataset (Focal Loss per lo sbilanciamento delle classi, GroupShuffleSplit per evitare data leakage). Inoltre, abbiamo completato un Extra Objective implementando un'architettura specificamente progettata per l'Edge (EfficientAT), quantificandone i benefici in un benchmark locale.
+- **Teacher Visivo ed Obiettivo Extra:** Abbiamo superato la baseline richiesta (ResNet-50 single-frame) esplorando e confrontando diverse tecniche di *temporal fusion* (late pooling, late FC, early fusion) per catturare la dinamica dell'azione, arrivando a implementare un'architettura SlowFast 3D a doppio percorso.
 - **Distillazione Cross-Modale:** Abbiamo costruito una pipeline di allineamento tra EPIC-Sounds ed EPIC-Kitchens per ottenere coppie (audio, video) temporalmente coerenti. Poiché i label space di teacher e student sono incompatibili, abbiamo adottato una distillazione feature-based (FitNets): un projector lineare mappa l'embedding audio dello student nello spazio visivo del teacher.
 
 ## 3. Dati Utilizzati
@@ -36,13 +36,13 @@ La pipeline di allineamento procede per fasi: prima un join sullo stesso `video_
 
 La prima versione del filtro utilizzava **tIoU** con soglia ~0.2:
 
-$$\text{tIoU} = \frac{\text{overlap}}{\text{durata\_audio} + \text{durata\_video} - \text{overlap}}$$
+$$\text{tIoU} = \frac{\text{overlap}}{\text{durata\_ audio} + \text{durata\_ video} - \text{overlap}}$$
 
 Il problema emerso è strutturale: le annotazioni video durano tipicamente ~10s, quelle audio ~1–2s. Un evento sonoro perfettamente contenuto dentro un'azione video dà $\text{tIoU} \approx 2 / 10 = 0.20$ - al limite della soglia anche in condizioni ideali. L'unione è sempre dominata dalla durata video, penalizzando sistematicamente i suoni brevi indipendentemente dalla qualità dell'allineamento.
 
 Si è quindi adottato il **containment ratio** con soglia ≥ 0.5:
 
-$$\text{containment} = \frac{\text{overlap}}{\text{durata\_audio}}$$
+$$\text{containment} = \frac{\text{overlap}}{\text{durata\_ audio}}$$
 
 Questa metrica misura quale frazione dell'evento sonoro è coperta dall'annotazione video, ignorando l'estensione temporale dell'azione. Con soglia ≥ 0.5 si garantisce che almeno metà dell'evento sonoro cada dentro l'azione video - condizione sufficiente per rendere il segnale del teacher coerente. Si tiene la coppia con containment più alto, una per evento. Il validation set rimane audio puro (EPIC-Sounds senza join), garantendo confrontabilità diretta con il baseline AST.
 
@@ -51,7 +51,7 @@ Il filtro produce **~7.000 coppie allineate** di training contro le ~48.600 anno
 ### Dataset Video (Teacher)
 Il **Teacher** è addestrato e valutato sul dataset *EPIC-KITCHENS-100*, dataset egocentrico su video di cucina. Ogni segmento è annotato con una coppia (verbo, nome) e il task del Teacher è riconoscere le azioni a partire dai frame RGB.
 
-**Subset e Split** 
+**Subset e Split** \\
 Per contenere il costo computazionale e di memoria dovuto al cluster, ci concentriamo su un sottoinsieme del dataset che contiene 172 video, suddivisi in:
 
 | Split | Video | Origine |
@@ -76,7 +76,7 @@ Per abbattere ulteriormente il problema dello spazio sul cluster, i video sono s
 **Campionamento e Augmentation**
 La principale forma di augmentation è il *campionamento temporale*; è applicato un ritaglio a dimensione fissa con normalizzazione coerente con i pesi pre-addestrati di ciascun modello. 
 - **Modelli 2D** (Resnet50 e varianti): normalizzazione ImageNet, crop a 224x224. Campionamento di 8 frame equispaziati, con jitter casuale all'interno di ciascun segmeneto in training e posizione centrale in validation/test. La configurazione *single-frame* estrae un solo frame.
-**Modello 3D**: SlowFast usa clip di 32 frame con crop 224x224 normalizzati secondo le statistiche di Kinetics. Il modulo *PackPathway* costruisce dalla stessa clip due viste (Slow e Fast) con rapporto temporale $\alpha=4$.
+- **Modello 3D**: SlowFast usa clip di 32 frame con crop 224x224 normalizzati secondo le statistiche di Kinetics. Il modulo *PackPathway* costruisce dalla stessa clip due viste (Slow e Fast) con rapporto temporale $\alpha=4$.
 
 L'uso del frame casuale in training (a fronte di un frame centrale deterministico in valutazione) agisce come regolarizzazione temporale, esponendo il modello a istanti diversi dello stesso segmento.
 
@@ -101,7 +101,7 @@ I modelli condividono:
 La funzione di loss è la somma delle due cross-entropy con label smoothing (0.1):
 $$\mathcal{L}=CE_{verb} + CE_{nome}$$
 
-L'ottimizzatore è AdamW con schedule del learning rate cosinusoidale. Il modello migliore è selezionato sul valore di validation della metrica combinata (verb_top1 + noun_top1)/2, con early stopping su patience. Lo stesso recipe è appliato a ogni modello.
+L'ottimizzatore è AdamW con schedule del learning rate cosinusoidale. Il modello migliore è selezionato sul valore di validation della metrica combinata $(verb\_ top1 + noun\_ top1)/2$, con early stopping su patience. Lo stesso recipe è appliato a ogni modello.
 
 **Baseline Richiesta - ResNet-50 single frame**
 ResNet-50 pre-addestrata su ImageNet, con feature a 2048 dimensioni estratte dal global average pooling e inoltrate alle due teste. Vedendo un solo frame, cattura l'aspetto ma non il movimento. 
