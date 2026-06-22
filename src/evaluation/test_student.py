@@ -8,14 +8,13 @@ import pandas as pd
 import torch
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
-from torchvision.transforms import v2
 from tqdm import tqdm
 from sklearn.metrics import balanced_accuracy_score, average_precision_score
 from sklearn.preprocessing import label_binarize
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from src.datasets.student_dataset import MultimodalStudentDataset
+from src.datasets.epic_sounds import EPICSoundsDataset
 from src.models.ast_student import EPICASTBaseline
 
 warnings.filterwarnings("ignore", message="y_pred contains classes not in y_true")
@@ -23,8 +22,8 @@ warnings.filterwarnings("ignore", message="y_pred contains classes not in y_true
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Evaluation Student AST (distillazione cross-modale)")
-    parser.add_argument("--val_csv", type=str,
-                        default="dataset/multimodal_val.csv")
+    parser.add_argument("--test_csv", type=str,
+                        default="data/epic-sounds-annotations/EPIC_Sounds_validation.csv")
     parser.add_argument("--frames_dir", type=str,
                         default="/home/gnfmrc01b01a494o/dataset/video")
     parser.add_argument("--hdf5_path", type=str,
@@ -57,16 +56,9 @@ def evaluate():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
 
-    MEAN, STD = [0.485, 0.456, 0.406], [0.229, 0.224, 0.225]
-    val_transform = v2.Compose([v2.Normalize(mean=MEAN, std=STD)])
-
-    ds = MultimodalStudentDataset(
-        csv_file=args.val_csv,
-        frames_dir=args.frames_dir,
+    ds = EPICSoundsDataset(
+        annotations_file=args.test_csv,
         hdf5_path=args.hdf5_path,
-        num_frames=1,
-        train=False,
-        transform=val_transform,
     )
     loader = DataLoader(ds, batch_size=args.batch_size, shuffle=False, num_workers=4)
 
@@ -84,7 +76,7 @@ def evaluate():
 
     all_probs, all_targets = [], []
 
-    for _, mel_spec, _, _, audio_label in tqdm(loader, desc="Evaluation Student"):
+    for mel_spec, audio_label in tqdm(loader, desc="Evaluation Student"):
         mel_spec = mel_spec.to(device)
         logits, _ = model(mel_spec)
         probs = F.softmax(logits, dim=1).cpu().numpy()
