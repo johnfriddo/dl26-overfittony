@@ -51,7 +51,7 @@ Il filtro produce **~7.000 coppie allineate** di training contro le ~48.600 anno
 ### Dataset Video (Teacher)
 Il **Teacher** è addestrato e valutato sul dataset *EPIC-KITCHENS-100*, dataset egocentrico su video di cucina. Ogni segmento è annotato con una coppia (verbo, nome) e il task del Teacher è riconoscere le azioni a partire dai frame RGB.
 
-###### Subset e Split
+#### Subset e Split
 Per contenere il costo computazionale e di memoria dovuto al cluster, ci concentriamo su un sottoinsieme del dataset che contiene 172 video, suddivisi in:
 
 | Split | Video | Origine |
@@ -70,10 +70,10 @@ Il numero di **classi effettivamente presenti** in ciascuno split (sui 97 verbi 
 
 Il setup è quindi **closed-set ma non completo**: alcune classi compaiono in validation/test pur essendo assenti dal training, e il training non copre l'intero spazio di etichette (90/97 verbi, 235/300 nomi). Abbiamo comunque dimensionato le teste di classificazione sull'**intero spazio ufficiale** (97 verbi, 300 nomi), usando gli ID originali di EPIC senza rimappatura, in modo da mantenere coerenza con il dataset completo. È un fattore da tenere presente nella lettura dei risultati: le classi mai viste in training pongono un tetto all'accuratezza, e i set di valutazione ridotti (25 e 50 video) rendono le metriche più sensibili al rumore.
 
-###### Preprocessing video
+#### Preprocessing video
 Per abbattere ulteriormente il problema dello spazio sul cluster, i video sono stati ricampionanti da 60 a 15 fps e i frame ridimensionati a 456x256, salvati in formato .jpg con quality factor $QF=70$ e infine rinumerati a partire da 1 per ciascun video. Gli indici `start_frame` e `stop_frame` delle annotazioni (riferiti al video originale a 60 fps) sono mappati sugli indici effettivi su disco (a 15 fps) con un fattore 4: `disk_idx ≈ round(frame / 4)`.
 
-###### Campionamento e Augmentation
+#### Campionamento e Augmentation
 La principale forma di augmentation è il *campionamento temporale*; è applicato un ritaglio a dimensione fissa con normalizzazione coerente con i pesi pre-addestrati di ciascun modello. 
 - **Modelli 2D** (Resnet50 e varianti): normalizzazione ImageNet, crop a 224x224. Campionamento di 8 frame equispaziati, con jitter casuale all'interno di ciascun segmeneto in training e posizione centrale in validation/test. La configurazione *single-frame* estrae un solo frame.
 - **Modello 3D**: SlowFast usa clip di 32 frame con crop 224x224 normalizzati secondo le statistiche di Kinetics. Il modulo *PackPathway* costruisce dalla stessa clip due viste (Slow e Fast) con rapporto temporale $\alpha=4$.
@@ -103,7 +103,7 @@ $$\mathcal{L}=CE_{verb} + CE_{nome}$$
 
 L'ottimizzatore è AdamW con schedule del learning rate cosinusoidale. Il modello migliore è selezionato sul valore di validation della metrica combinata $(verb\_ top1 + noun\_ top1)/2$, con early stopping su patience. Lo stesso recipe è appliato a ogni modello.
 
-###### Baseline Richiesta - ResNet-50 single frame
+#### Baseline Richiesta - ResNet-50 single frame
 ResNet-50 pre-addestrata su ImageNet, con feature a 2048 dimensioni estratte dal global average pooling e inoltrate alle due teste. Vedendo un solo frame, cattura l'aspetto ma non il movimento. 
 
 Per introdurre informazione temporale senza cambiare backbone, abbiamo confrontato tre strategie di fusione su 8 frame, secondo la classica tassonomia early/late fusion:
@@ -111,7 +111,7 @@ Per introdurre informazione temporale senza cambiare backbone, abbiamo confronta
 - **Late FC**: le feature dei frame vengono concatenate e proiettate da un livello fully-connected. Conservano l'ordine, mantiene più informazione di movimento. 
 - **Early Fusion**: i frames sono impilati sul canale di ingresso e dati in pasto alla rete con il primo layer adattato.
 
-###### SlowFast-R50
+#### SlowFast-R50
 SlowFast-R50 usa due percorsi paralleli fusi tramite connessioni laterali: un percorso *Slow*, a bassa frequenza di frame, più bravo a classificare gli oggetti (i nomi), e un percorso *Fast*, ad alta frequenza di frame, più bravo a catturare il movimento (i verbi). Feature a 2304, clip da 32 frame.
 
 ### Student - Distillazione Cross-Modale
