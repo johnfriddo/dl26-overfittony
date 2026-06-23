@@ -68,7 +68,7 @@ Il numero di **classi effettivamente presenti** in ciascuno split (sui 97 verbi 
 | Validation | 67 | 133 |
 | Test | 68 | 164 |
 
-Il setup è quindi **closed-set ma non completo**: alcune classi compaiono in validation/test pur essendo assenti dal training, e il training non copre l'intero spazio di etichette (90/97 verbi, 235/300 nomi). Abbiamo comunque dimensionato le teste di classificazione sull'**intero spazio ufficiale** (97 verbi, 300 nomi), usando gli ID originali di EPIC senza rimappatura, in modo da mantenere coerenza con il dataset completo. È un fattore da tenere presente nella lettura dei risultati: le classi mai viste in training pongono un tetto all'accuratezza, e i set di valutazione ridotti (25 e 50 video) rendono le metriche più sensibili al rumore.
+Abbiamo dimensionato le teste di classificazione sull'**intero spazio ufficiale** (97 verbi, 300 nomi), usando gli ID originali di EPIC senza rimappatura, in modo da mantenere coerenza con il dataset completo.
 
 #### Preprocessing video
 Per abbattere ulteriormente il problema dello spazio sul cluster, i video sono stati ricampionanti da 60 a 15 fps e i frame ridimensionati a 456x256, salvati in formato .jpg con quality factor $QF=70$ e infine rinumerati a partire da 1 per ciascun video. Gli indici `start_frame` e `stop_frame` delle annotazioni (riferiti al video originale a 60 fps) sono mappati sugli indici effettivi su disco (a 15 fps) con un fattore 4: `disk_idx ≈ round(frame / 4)`.
@@ -101,7 +101,7 @@ I modelli condividono:
 La funzione di loss è la somma delle due cross-entropy con label smoothing (0.1):
 $$\mathcal{L}=CE_{verb} + CE_{nome}$$
 
-L'ottimizzatore è AdamW con schedule del learning rate cosinusoidale. Il modello migliore è selezionato sul valore di validation della metrica combinata $(verb\_ top1 + noun\_ top1)/2$, con early stopping su patience. Lo stesso recipe è appliato a ogni modello.
+L'ottimizzatore è AdamW con schedule del learning rate cosinusoidale. Il modello migliore è selezionato sul valore di validation della metrica combinata $(verb\_ top1 + noun\_ top1)/2$, con early stopping su patience. Lo stesso recipe è applicato a ogni modello.
 
 #### Baseline Richiesta - ResNet-50 single frame
 ResNet-50 pre-addestrata su ImageNet, con feature a 2048 dimensioni estratte dal global average pooling e inoltrate alle due teste. Vedendo un solo frame, cattura l'aspetto ma non il movimento. 
@@ -160,7 +160,7 @@ Tutti i risultati sono riportati sul test set. La metrica principale top-1 accur
 | Early fusion (8 frame) | 33.9 | 16.0 | 8.5 |
 | **SlowFast-R50 (32 frame)** | **50.3** | **32.0** | **20.6** |
 
-SlowFast guida anche sulle altre metriche misurate (top-5, mAP e mean class accuracy); la tabella completa per metrica è riportata in [utils/risultati_test_all.csv]
+SlowFast guida anche sulle altre metriche misurate (top-5, mAP e mean class accuracy); la tabella completa per metrica è riportata in [[utils/risultati_test_all.csv]]
 
 Il passaggio dal Single-Frame alla fusione su 8 frame produce un salto netto (azione da 9.5 a 15.4 con Late Pooling). È però importante notare che il pooling non modella il movimento: il guadagno deriva dall'aggregazione dell'aspetto su più frame e non da informazione dinamica.
 
@@ -215,7 +215,7 @@ Con più tempo e risorse, le direzioni più promettenti sarebbero: (1) usare i d
 *Detail clearly who did what within the group.*
 - **Antonio Rosano**: Sviluppo della pipeline dati audio su EPIC-Sounds (preprocessing e split). Addestramento e ottimizzazione della Baseline AST. Esplorazione e benchmark computazionale dell'Extra Objective per l'Edge Computing (EfficientAT).
 
-- **Marco Gionfriddo**: Elaborazione del subset del dataset EPIC-KITCHENS-100 e training di tutti i modelli Teacher.
+- **Marco Gionfriddo**: Elaborazione, download e trasferimento del subset del dataset EPIC-KITCHENS-100. Implementazione, Training e Analisi dell'obiettivo base Teacher ResNet-50 (e relative tecniche) e dell'obiettivo extra SlowFast.
 
 - **Kevin Speranza**: Costruzione della pipeline di allineamento cross-modale. Iplementazione dell'architettura student con projector. Training e analisi degli esperimenti di distillazione (MSE vs Cosine, ablation su $\lambda$).
 
